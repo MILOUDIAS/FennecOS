@@ -7,7 +7,7 @@ set -e
 
 function usage {
 	cat <<EOF
-Welcome to MyLFS.
+Welcome to FennecOS.
 
     WARNING: Most of the functionality in this script requires root privileges,
 and involves the partitioning, mounting and unmounting of device files. Use at
@@ -948,8 +948,8 @@ if [ -n "$EXTENSION" ]; then
 fi
 
 if $CHROOT; then
-	# Run mylfs script with sudo
-	sudo ./mylfs.sh -m
+	# Run fennecos-build-img_archlinux script with sudo
+	sudo ./fennecos-build-img_archlinux.sh -m
 
 	# Assign the output of 'pwd' command to the LFS variable
 	# Export the LFS variable
@@ -957,7 +957,7 @@ if $CHROOT; then
 
 	# Function to run umount command after chroot exit
 	run_umount() {
-		sudo ./mylfs.sh -u
+		sudo ./fennecos-build-img_archlinux.sh -u
 	}
 
 	# Trap the EXIT signal and execute the run_umount function
