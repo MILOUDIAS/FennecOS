@@ -1,0 +1,19 @@
+########################################
+#                                      #
+#  \e[1;37mWelcome to \e[1;33mLinux From Scratch \e[1;35m11.3\e[0m  #
+#                                      #
+#  LFS Version: 11.3                   #
+#  Kernel Version: 6.1.11              #
+#  GNU C Library: 12.2.0               #
+#  Default Shell: Bash 5.2.15          #
+#  Available Packages: 215             #
+#                                      #
+#  For documentation, visit:           #
+#  www.linuxfromscratch.org            #
+#                                      #
+#  Username: root                      #
+#  Password: password                  #
+#                                      #
+#  Enjoy your experience!              #
+#                                      #
+########################################
