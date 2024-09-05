@@ -98,10 +98,10 @@ export PKG_XMLPARSER=https://cpan.metacpan.org/authors/id/T/TO/TODDR/XML-Parser-
 export PKG_XZ=https://github.com//tukaani-project/xz/releases/download/v5.6.2/xz-5.6.2.tar.xz
 export PKG_ZLIB=https://www.zlib.net/fossils/zlib-1.3.1.tar.gz
 export PKG_ZSTD=https://github.com/facebook/zstd/releases/download/v1.5.6/zstd-1.5.6.tar.gz
-export PATCH_BZIP2=https://www.linuxfromscratch.org/patches/lfs/development/bzip2-1.0.8-install_docs-1.patch
-export PATCH_COREUTILS=https://www.linuxfromscratch.org/patches/lfs/development/coreutils-9.5-i18n-2.patch
-export PATCH_GLIBC=https://www.linuxfromscratch.org/patches/lfs/development/glibc-2.40-fhs-1.patch
+export PATCH_BZIP2=https://www.linuxfromscratch.org/patches/lfs/12.2/bzip2-1.0.8-install_docs-1.patch
+export PATCH_COREUTILS=https://www.linuxfromscratch.org/patches/lfs/12.2/coreutils-9.5-i18n-2.patch
+export PATCH_GLIBC=https://www.linuxfromscratch.org/patches/lfs/12.2/glibc-2.40-fhs-1.patch
 # NEW
-export PATCH_EXPECT=https://www.linuxfromscratch.org/patches/lfs/development/expect-5.45.4-gcc14-1.patch
-export PATCH_KBD=https://www.linuxfromscratch.org/patches/lfs/development/kbd-2.6.4-backspace-1.patch
-export PATCH_SYSVINIT=https://www.linuxfromscratch.org/patches/lfs/development/sysvinit-3.10-consolidated-1.patch
+export PATCH_EXPECT=https://www.linuxfromscratch.org/patches/lfs/12.2/expect-5.45.4-gcc14-1.patch
+export PATCH_KBD=https://www.linuxfromscratch.org/patches/lfs/12.2/kbd-2.6.4-backspace-1.patch
+export PATCH_SYSVINIT=https://www.linuxfromscratch.org/patches/lfs/12.2/sysvinit-3.10-consolidated-1.patch

@@ -4,7 +4,8 @@
 .vscode/
 #Logs folder
 logs/
-# image file (too large)
+# image files (too large)
 *.img
+*.vdi
 # too large for github (i think..)
 packages/
