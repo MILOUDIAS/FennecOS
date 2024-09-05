@@ -7,5 +7,6 @@ logs/
 # image files (too large)
 *.img
 *.vdi
+*.iso
 # too large for github (i think..)
 packages/
