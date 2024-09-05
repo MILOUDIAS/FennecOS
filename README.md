@@ -174,4 +174,5 @@ This will unmount the IMG file (if it is mounted), delete it, and delete the log
 
 ## Booting
 
-So far, I have managed to boot the IMG file using QEMU (see the [runqemu.sh](runqemu.sh) script) and on bare metal using a flash drive. I have not been able to boot it up on a VM yet, maybe i need to convert .img to vdi or something VBox understand.
+So far, I have managed to boot the IMG file using QEMU (see the [runqemu.sh](runqemu.sh) script) and on bare metal using a flash drive.
+And to to run it in Virtual Box you need first to convert the image file to vdi ( see the [convert-to-vdi.sh](convert-to-vdi.sh) script). and add the vdi disk to a new virtual machine in VBox
