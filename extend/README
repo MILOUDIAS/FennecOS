@@ -1,13 +1,13 @@
-This directory contains an example MyLFS extension.
+This directory contains an example FennecOS extension.
 
-What is a MyLFS extension?
-    MyLFS by itself builds the Linux From Scratch System V Init version
+What is a FennecOS extension?
+    FennecOS by itself builds the Linux From Scratch System V Init version
 almost exactly according to the book. The end result is of course very
 minimal, and that's where Beyond Linux From Scratch comes in. You can use
 the instructions in that book to add packages and expand on the system that
-you have built. MyLFS extensions are modules that contain the information
+you have built. FennecOS extensions are modules that contain the information
 needed to automatically build BLFS packages, on top of the LFS system that
-MyLFS builds.
+FennecOS builds.
 
 How to create an extension:
 
@@ -33,7 +33,7 @@ How to create an extension:
 
     # don't add any other code, since this
     # file is both 'sourced' and parsed by
-    # mylfs.sh.
+    # fennecos-build-img.sh.
     ```
 
 
@@ -83,7 +83,7 @@ How to create an extension:
 
 
 - Finally, create a file called "build_order.txt" in your extension directory.
-  This file should contain the list of packages to build. mylfs.sh will
+  This file should contain the list of packages to build. FennecOS.sh will
   build each one in the order that they occur in this file.
 
     For example:
@@ -155,15 +155,15 @@ How to create an extension:
 More Notes:
 
 - The package tarballs for extensions will be saved to "<extension-dir>/packages/",
-  separate from the LFS packages that are kept in "MyLFS/packages/". The same is true
+  separate from the LFS packages that are kept in "FennecOS/packages/". The same is true
   for the extension build logs, which will be kept in "<extension-dir>/logs/".
 
-- mylfs.sh treats extensions as a fifth phase, ontop of the four builtin phases.
+- FennecOS.sh treats extensions as a fifth phase, ontop of the four builtin phases.
   Therefore, if you want to have the script jump straight to your extension
   scripts on an already built lfs.img, specify the following when running
   the script:
 
-    sudo ./mylfs.sh --extend path/to/extension --start-phase 5
+    sudo ./fennecos-build-img.sh --extend path/to/extension --start-phase 5
 
   Note the '--start-phase 5' bit.
 
