@@ -282,6 +282,7 @@ function init_image {
 
 	# install system_config files
 	echo $LFSHOSTNAME >$LFS/etc/hostname
+	cp ./system_config/systemd_config/* $LFS/etc
 	for f in ./system_config/*; do
 		install_system_config $f
 	done
