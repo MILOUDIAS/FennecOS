@@ -69,13 +69,12 @@ texinfo
 vim
 markupsafe
 jinja
-udevsystemd
+systemd
+dbus
 mandb
 procps
 utillinux
 e2fsprogs
-sysklogd
-sysvinit
 lfsbootscripts
 linux
 grub

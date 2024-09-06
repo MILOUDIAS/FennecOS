@@ -78,10 +78,9 @@ export PKG_SED=https://ftp.gnu.org/gnu/sed/sed-4.9.tar.xz
 export PKG_SETUPTOOLS=https://pypi.org/packages/source/s/setuptools/setuptools-72.2.0.tar.gz
 export PKG_SUDO=https://www.sudo.ws/dist/sudo-1.9.13p1.tar.gz
 export PKG_SHADOW=https://github.com/shadow-maint/shadow/releases/download/4.16.0/shadow-4.16.0.tar.xz
-export PKG_SYSKLOGD=https://github.com/troglobit/sysklogd/releases/download/v2.6.1/sysklogd-2.6.1.tar.gz
+# export PKG_SYSKLOGD=https://github.com/troglobit/sysklogd/releases/download/v2.6.1/sysklogd-2.6.1.tar.gz
 # NEW
 export PKG_SYSTEMD=https://github.com/systemd/systemd/archive/v256.4/systemd-256.4.tar.gz
-export PKG_UDEVSYSTEMD=https://github.com/systemd/systemd/archive/v256.4/systemd-256.4.tar.gz
 # NEW
 export PKG_SYSTEMD_MANPAGES=https://anduin.linuxfromscratch.org/LFS/systemd-man-pages-256.4.tar.xz
 export PKG_SYSVINIT=https://github.com/slicer69/sysvinit/releases/download/3.10/sysvinit-3.10.tar.xz
@@ -90,7 +89,7 @@ export PKG_TCL=https://downloads.sourceforge.net/tcl/tcl8.6.14-src.tar.gz
 export PKG_TCLDOCS=https://downloads.sourceforge.net/tcl/tcl8.6.14-html.tar.gz
 export PKG_TEXINFO=https://ftp.gnu.org/gnu/texinfo/texinfo-7.1.tar.xz
 export PKG_TZDATA=https://www.iana.org/time-zones/repository/releases/tzdata2024a.tar.gz
-export PKG_UDEVLFS=https://anduin.linuxfromscratch.org/LFS/udev-lfs-20230818.tar.xz
+#export PKG_UDEVLFS=https://anduin.linuxfromscratch.org/LFS/udev-lfs-20230818.tar.xz
 export PKG_UTILLINUX=https://www.kernel.org/pub/linux/utils/util-linux/v2.40/util-linux-2.40.2.tar.xz
 export PKG_VIM=https://github.com/vim/vim/archive/v9.1.0660/vim-9.1.0660.tar.gz
 export PKG_WHEEL=https://pypi.org/packages/source/w/wheel/wheel-0.44.0.tar.gz
@@ -98,10 +97,10 @@ export PKG_XMLPARSER=https://cpan.metacpan.org/authors/id/T/TO/TODDR/XML-Parser-
 export PKG_XZ=https://github.com//tukaani-project/xz/releases/download/v5.6.2/xz-5.6.2.tar.xz
 export PKG_ZLIB=https://www.zlib.net/fossils/zlib-1.3.1.tar.gz
 export PKG_ZSTD=https://github.com/facebook/zstd/releases/download/v1.5.6/zstd-1.5.6.tar.gz
+#++++++++++++++++++ Patches
 export PATCH_BZIP2=https://www.linuxfromscratch.org/patches/lfs/12.2/bzip2-1.0.8-install_docs-1.patch
 export PATCH_COREUTILS=https://www.linuxfromscratch.org/patches/lfs/12.2/coreutils-9.5-i18n-2.patch
 export PATCH_GLIBC=https://www.linuxfromscratch.org/patches/lfs/12.2/glibc-2.40-fhs-1.patch
 # NEW
 export PATCH_EXPECT=https://www.linuxfromscratch.org/patches/lfs/12.2/expect-5.45.4-gcc14-1.patch
 export PATCH_KBD=https://www.linuxfromscratch.org/patches/lfs/12.2/kbd-2.6.4-backspace-1.patch
-export PATCH_SYSVINIT=https://www.linuxfromscratch.org/patches/lfs/12.2/sysvinit-3.10-consolidated-1.patch
