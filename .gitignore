@@ -4,6 +4,7 @@
 .vscode/
 #Logs folder
 logs/
+mnt/
 # image files (too large)
 *.img
 *.vdi
