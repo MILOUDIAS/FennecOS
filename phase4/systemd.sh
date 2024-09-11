@@ -35,3 +35,5 @@ tar -xf ../../systemd-man-pages-256.4.tar.xz \
 systemd-machine-id-setup
 
 systemctl preset-all
+# systemctl enable systemd-networkd
+# systemctl enable systemd-resolved

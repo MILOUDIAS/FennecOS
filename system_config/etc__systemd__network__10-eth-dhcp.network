@@ -1,8 +1,0 @@
-[Match]
-Name=enp3s0
-
-[Network]
-DHCP=ipv4
-
-[DHCPv4]
-UseDomains=true

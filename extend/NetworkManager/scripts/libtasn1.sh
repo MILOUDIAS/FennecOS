@@ -3,9 +3,8 @@
 ./configure --prefix=/usr --disable-static
 make
 
-if $RUN_TESTS
-then
-    make check
+if $RUN_TESTS; then
+	make check
 fi
 
 make install
