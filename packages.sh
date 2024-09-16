@@ -43,8 +43,6 @@ export PKG_JINJA=https://pypi.org/packages/source/J/Jinja2/jinja2-3.1.4.tar.gz
 export PKG_KBD=https://www.kernel.org/pub/linux/utils/kbd/kbd-2.6.4.tar.xz
 export PKG_KMOD=https://www.kernel.org/pub/linux/utils/kernel/kmod/kmod-33.tar.xz
 export PKG_LESS=https://www.greenwoodsoftware.com/less/less-661.tar.gz
-# This can change in near future
-export PKG_LFSBOOTSCRIPTS=https://www.linuxfromscratch.org/lfs/downloads/12.2/lfs-bootscripts-20240825.tar.xz
 export PKG_LIBCAP=https://www.kernel.org/pub/linux/libs/security/linux-privs/libcap2/libcap-2.70.tar.xz
 export PKG_LIBFFI=https://github.com/libffi/libffi/releases/download/v3.4.6/libffi-3.4.6.tar.gz
 export PKG_LIBPIPELINE=https://download.savannah.gnu.org/releases/libpipeline/libpipeline-1.5.7.tar.gz
