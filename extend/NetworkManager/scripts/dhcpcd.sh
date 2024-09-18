@@ -24,3 +24,6 @@ install -v -m700 -d /var/lib/dhcpcd &&
 	make
 
 make install
+
+cd ../$(basename $PKG_SYSTEMDUNITS) &&
+	make install-dhcpcd
