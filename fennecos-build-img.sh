@@ -278,7 +278,7 @@ function init_image {
 	mkdir -p $LFS/home/tester
 	chown 101:101 $LFS/home/tester
 	mkdir -p $LFS/sources
-	cp ./packages/* $LFS/sources
+	cp ./x86_64/packages/* $LFS/sources
 
 	# install system_config files
 	echo $LFSHOSTNAME >$LFS/etc/hostname
@@ -327,8 +327,8 @@ function download_packages {
 	if [ -n "$1" ]; then
 		# if an extension is being built, it will
 		# override the packages and packages.sh paths
-		local PACKAGE_DIR=$1/packages
-		local PACKAGE_LIST=$1/packages.sh
+		local PACKAGE_DIR=$1/x86_64/packages
+		local PACKAGE_LIST=$1/x86_64/packages.sh
 	fi
 
 	mkdir -p $PACKAGE_DIR
@@ -428,13 +428,38 @@ function build_package {
 	local SCRIPT_PATH=$([ $PHASE -eq 5 ] && echo $EXTENSION/scripts/${NAME}.sh || echo ./phase${PHASE}/${NAME}.sh)
 
 	if [ "$NAME_OVERRIDE" == "_" ]; then
-		local TARCMD=""
+		local EXTRACTCMD=""
+
 	else
 		if [ -z "${!PKG_NAME}" ]; then
 			echo "ERROR: $NAME: package not found"
 			return 1
 		fi
-		local TARCMD="tar -xf $(basename ${!PKG_NAME}) -C $NAME --strip-components=1"
+
+		# Get the file extension
+		local FILE=$(basename "${!PKG_NAME}")
+		case "$FILE" in
+		*.zip)
+			local EXTRACTCMD="unzip ${FILE} -d $NAME"
+			;;
+		*.tar.gz | *.tgz)
+			local EXTRACTCMD="tar -xzf ${FILE} -C $NAME --strip-components=1"
+			;;
+		*.tar.bz2)
+			local EXTRACTCMD="tar -xjf ${FILE} -C $NAME --strip-components=1"
+			;;
+		*.tar.xz)
+			local EXTRACTCMD="tar -xJf ${FILE} -C $NAME --strip-components=1"
+			;;
+		*.tar)
+			local EXTRACTCMD="tar -xf ${FILE} -C $NAME --strip-components=1"
+			;;
+		*)
+			echo "ERROR: $FILE has an unsupported file extension"
+			return 1
+			;;
+		esac
+		# local TARCMD="tar -xf $(basename ${!PKG_NAME}) -C $NAME --strip-components=1"
 	fi
 
 	local BUILD_INSTR="
@@ -442,13 +467,12 @@ function build_package {
         pushd sources > /dev/null
         rm -rf $NAME
         mkdir $NAME
-        $TARCMD
+        $EXTRACTCMD
         cd $NAME
         $(cat $SCRIPT_PATH)
         popd
         rm -r sources/$NAME
     "
-
 	pushd $LFS >/dev/null
 
 	if $CHROOT; then
@@ -798,7 +822,7 @@ cd $(dirname "$0")
 source ./config.sh
 
 # import package list
-source ./packages.sh
+source ./x86_64/packages.sh
 
 VERBOSE=false
 CHECKDEPS=false
