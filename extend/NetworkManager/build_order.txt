@@ -6,24 +6,34 @@ libpsl
 curl
 git
 wget
-docutils
+libxml2
 libxslt
 pcre2
+docutils
+icu
+packaging
 glib
+unzip
 iptables
 libidn2
 libunistring
-libpsl
+#libpsl
+docbookxml
+docbookxslnons
 popt
 slang
 gpm
 newt
 nspr
 sqlite
+pixman
+libpng
+freetype2
+fontconfig
 libtasn1
 makeca_install MAKECA
 p11kit
-makeca_certs MAKECA
+#makeca_certs MAKECA
 duktape
 linuxpam
 polkit
@@ -32,4 +42,8 @@ pycairo
 pygobject
 graphviz
 vala
+dhcpcd
+iptables
+nss
+networkmanager
 # sudo

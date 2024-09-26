@@ -5,25 +5,26 @@ mkdir build &&
 		--buildtype=release \
 		-D introspection=disabled \
 		-D glib_debug=disabled \
-		-D man-pages=enabled \
+		-D man-pages=disabled \
 		-D sysprof=disabled &&
 	ninja
 
 ninja install
 
-tar -xvf ../$(basename $PKG_GOBJECT_INTROSPECTION) &&
-	meson setup gobject-introspection-1.82.0 gi-build \
+tar -xvf ../../$(basename $PKG_GOBJECT_INTROSPECTION) &&
+	meson setup gobject-introspection-1.80.1 gi-build \
 		--prefix=/usr --buildtype=release &&
 	ninja -C gi-build
 
 ninja -C gi-build install
 
-meson configure -D introspection=enabled &&
+meson configure -D documentation=false &&
+	meson configure -D introspection=enabled &&
 	ninja
 
-sed 's/glib-2.0/glib-2.82.0/' \
-	-i ../docs/reference/meson.build &&
-	meson configure -D documentation=true &&
-	ninja
+# sed 's/glib-2.0/glib-2.82.0/' \
+# 	-i ../docs/reference/meson.build &&
+# 	meson configure -D documentation=true &&
+# 	ninja
 
 ninja install

@@ -25,5 +25,17 @@ install -v -m700 -d /var/lib/dhcpcd &&
 
 make install
 
-cd ../$(basename $PKG_SYSTEMDUNITS) &&
-	make install-dhcpcd
+# cd ../$(basename $PKG_SYSTEMDUNITS) &&
+
+tar -xvf ../$(basename $PKG_SYSTEMDUNITS)
+# cd ../$(basename $PKG_SYSTEMDUNITS)
+
+# Find the actual directory created by tar and cd into it
+# extracted_dir=$(tar -xvf ../$(basename $PKG_SYSTEMDUNITS) | head -1 | cut -f1 -d"/")
+
+cd blfs-systemd-units-20240801/
+make install-dhcpcd
+# cd "$extracted_dir"
+
+systemctl start dhcpcd@enp3s0
+systemctl enable dhcpcd@enp3s0

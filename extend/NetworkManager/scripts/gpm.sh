@@ -17,5 +17,16 @@ make install &&
 	install -v -m644 doc/{FAQ,HACK_GPM,README*} \
 		/usr/share/doc/gpm-1.20.7
 
-cd ../$(basename $PKG_SYSTEMDUNITS)
+xz -d ../$(basename $PKG_SYSTEMDUNITS)
+tar -xvf ../blfs-systemd-units-20240801.tar
+
+# tar -xvf ../$(basename $PKG_SYSTEMDUNITS)
+# cd ../$(basename $PKG_SYSTEMDUNITS)
+
+# Find the actual directory created by tar and cd into it
+# extracted_dir=$(tar -xvf ../$(basename $PKG_SYSTEMDUNITS) | head -1 | cut -f1 -d"/")
+
+cd blfs-systemd-units-20240801/
+# cd "$extracted_dir"
+
 make install-gpm

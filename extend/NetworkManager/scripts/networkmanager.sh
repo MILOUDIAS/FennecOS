@@ -15,7 +15,7 @@ mkdir build &&
 	ninja
 
 ninja install &&
-	mv -v /usr/share/doc/NetworkManager{,-1.48.10}
+	mv -v /usr/share/doc/NetworkManager{,-1.48.8}
 
 for file in $(echo ../man/*.[1578]); do
 	section=${file##*.} &&
@@ -23,7 +23,18 @@ for file in $(echo ../man/*.[1578]); do
 	install -vm 644 $file /usr/share/man/man$section/
 done
 
-cp -Rv ../docs/{api,libnm} /usr/share/doc/NetworkManager-1.48.10
+cp -Rv ../docs/{api,libnm} /usr/share/doc/NetworkManager-1.48.8
+
+groupadd -fg 86 netdev &&
+	/usr/sbin/usermod -a -G netdev root
+
+cat >/usr/share/polkit-1/rules.d/org.freedesktop.NetworkManager.rules <<"EOF"
+polkit.addRule(function(action, subject) {
+    if (action.id.indexOf("org.freedesktop.NetworkManager.") == 0 && subject.isInGroup("netdev")) {
+        return polkit.Result.YES;
+    }
+});
+EOF
 
 systemctl disable systemd-networkd
 systemctl disable systemd-resolved

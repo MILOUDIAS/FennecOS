@@ -1,4 +1,5 @@
-patch -Np1 -i ../libxml2-2.13.3-upstream_fix-2.patch
+# patch -Np1 -i ../libxml2-2.13.3-upstream_fix-2.patch
+patch -Np1 -i ../$(basename $PATCH_LIBXML2)
 
 ./configure --prefix=/usr \
 	--sysconfdir=/etc \
