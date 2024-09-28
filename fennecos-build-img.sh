@@ -583,7 +583,7 @@ function build_extension {
 	elif [ ! -d "$EXTENSION" ]; then
 		echo "ERROR: extension '$EXTENSION' is not a directory, or does not exist."
 		return 1
-	elif [ ! -f "$EXTENSION/packages.sh" ]; then
+	elif [ ! -f "$EXTENSION/x86_64/packages.sh" ]; then
 		echo "ERROR: extension '$EXTENSION' is missing a 'packages.sh' file."
 		return 1
 	elif [ ! -f "$EXTENSION/build_order.txt" ]; then
@@ -594,13 +594,13 @@ function build_extension {
 		return 1
 	fi
 
-	mkdir -p $EXTENSION/{logs,packages}
+	mkdir -p $EXTENSION/{logs,x86_64/packages}
 
 	# read in extension config.sh if present
 	[ -f "$EXTENSION/config.sh" ] && source "$EXTENSION/config.sh"
 
 	# read packages.sh (so the extension scripts can see them)
-	source "$EXTENSION/packages.sh"
+	source "$EXTENSION/x86_64/packages.sh"
 
 	# download extension packages
 	# when download_packages fails, it calls 'exit'.
@@ -612,7 +612,7 @@ function build_extension {
 	$VERBOSE && set -x
 
 	# copy packages onto LFS image
-	cp -f $EXTENSION/packages/* $LFS/sources/
+	cp -f $EXTENSION/x86_64/packages/* $LFS/sources/
 
 	# install system_config files if present
 	if [ -d "$EXTENSION/system_config" ]; then
