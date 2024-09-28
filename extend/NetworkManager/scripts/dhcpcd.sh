@@ -33,9 +33,9 @@ tar -xvf ../$(basename $PKG_SYSTEMDUNITS)
 # Find the actual directory created by tar and cd into it
 # extracted_dir=$(tar -xvf ../$(basename $PKG_SYSTEMDUNITS) | head -1 | cut -f1 -d"/")
 
+# cd "$extracted_dir"
 cd blfs-systemd-units-20240801/
 make install-dhcpcd
-# cd "$extracted_dir"
 
-systemctl start dhcpcd@enp3s0
-systemctl enable dhcpcd@enp3s0
+systemctl start dhcpcd@enp0s3
+systemctl enable dhcpcd@enp0s3
