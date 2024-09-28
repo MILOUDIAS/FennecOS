@@ -1,0 +1,49 @@
+# build_order.txt
+# <scriptname> (without .sh)
+
+libndp
+libpsl
+curl
+git
+wget
+libxml2
+libxslt
+pcre2
+docutils
+icu
+packaging
+glib
+unzip
+iptables
+libidn2
+libunistring
+#libpsl
+docbookxml
+docbookxslnons
+popt
+slang
+gpm
+newt
+nspr
+sqlite
+pixman
+libpng
+freetype2
+fontconfig
+libtasn1
+makeca_install MAKECA
+p11kit
+#makeca_certs MAKECA
+duktape
+linuxpam
+polkit
+cairo
+pycairo
+pygobject
+graphviz
+vala
+dhcpcd
+iptables
+nss
+networkmanager
+# sudo

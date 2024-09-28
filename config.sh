@@ -6,8 +6,8 @@ FULLPATH=$(cd $(dirname $0) && pwd)
 
 export LFS_VERSION=0.1
 export KERNELVERS=6.10.5
-export PACKAGE_LIST=$FULLPATH/packages.sh
-export PACKAGE_DIR=$FULLPATH/packages
+export PACKAGE_LIST=$FULLPATH/x86_64/packages.sh
+export PACKAGE_DIR=$FULLPATH/x86_64/packages
 export LOG_DIR=$FULLPATH/logs
 export KEEP_LOGS=true
 export LFS=$FULLPATH/mnt/lfs
@@ -15,7 +15,7 @@ export INSTALL_MOUNT=$FULLPATH/mnt/install
 export LFS_TGT=$(uname -m)-fennecos-linux-gnu
 export LFS_FS=ext4
 export LFS_IMG=$FULLPATH/fennecos.img
-export LFS_IMG_SIZE=$((15*1024*1024*1024)) # 15 GiB
+export LFS_IMG_SIZE=$((25 * 1024 * 1024 * 1024)) # 25 GiB
 export TESTLOG_DIR=$FULLPATH/testlogs
 export LFSROOTLABEL=LFSROOT
 export LFSEFILABEL=LFSEFI
@@ -38,16 +38,13 @@ y       # confirm overwrite (noop if not prompted)
 w       # write to device and quit
 "
 
-KEYS="MAKEFLAGS PACKAGE_LIST PACKAGE_DIR LOG_DIR KEEP_LOGS LFS LFS_TGT"\
-" LFS_FS LFS_IMG LFS_IMG_SIZE ROOT_PASSWD RUN_TESTS TESTLOG_DIR LFSHOSTNAME"\
-" LFSROOTLABEL LFSEFILABEL LFSFSTYPE KERNELVERS FDISK_INSTR"
+KEYS="MAKEFLAGS PACKAGE_LIST PACKAGE_DIR LOG_DIR KEEP_LOGS LFS LFS_TGT""\
+ LFS_FS LFS_IMG LFS_IMG_SIZE ROOT_PASSWD RUN_TESTS TESTLOG_DIR LFSHOSTNAME""\
+ LFSROOTLABEL LFSEFILABEL LFSFSTYPE KERNELVERS FDISK_INSTR"
 
-for KEY in $KEYS
-do
-    if [ -z "${!KEY}" ]
-    then
-        echo "ERROR: '$KEY' config is not set."
-        exit -1
-    fi
+for KEY in $KEYS; do
+	if [ -z "${!KEY}" ]; then
+		echo "ERROR: '$KEY' config is not set."
+		exit -1
+	fi
 done
-

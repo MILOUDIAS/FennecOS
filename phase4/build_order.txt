@@ -75,6 +75,5 @@ mandb
 procps
 utillinux
 e2fsprogs
-lfsbootscripts
 linux
 grub
