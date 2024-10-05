@@ -176,3 +176,34 @@ This will unmount the IMG file (if it is mounted), delete it, and delete the log
 
 So far, I have managed to boot the IMG file using QEMU (see the [runqemu.sh](runqemu.sh) script) and on bare metal using a flash drive.
 And to to run it in Virtual Box you need first to convert the image file to vdi ( see the [convert-to-vdi.sh](convert-to-vdi.sh) script). and add the vdi disk to a new virtual machine in VBox
+
+## Turn FennecOS image into iso !!
+
+Why not make it an installable iso so you can share it to anyone who wanna test it or install it on their machines. With this scripts, make a custom iso with your own customization and linux distro of your choice is just easy.
+
+## How to do it?
+
+Basically you just need your rootfs somewhere, in our case is "mnt/lfs" then run `./mkiso.sh mnt/lfs`, make sure you have mounted the FennecOS image using `sudo ./fennecos-build-img.sh --mount` or `sudo ./fennecos-build-img_archlinux.sh --mount` (if you are on arch based distro). Then the iso is ready in `iso/` directory. But if you want include some customization and installable, theres a few extra step.
+
+1. Prepare your rootfs of distro of your choice, i recommend write a script to do it, so you can just run it anytime when you want to make an iso. Just modify it to suit your need. And i recommend your rootfs directory named `rootfs-<distro name>`, because `mkiso.sh` script use that 'distro name' for customization dir & output iso. I suggest make it clean, less modified as possible, any modification put it in `liverootfs-<distro name>`, `live_script.sh` or `post-install.sh` instead.
+2. Prepare your customization files inside `liverootfs-<distro name>` dir. You can copy over from `liverootfs` (global customization files) directory then modify it to suit your need. For config files like '.Xdefaults', '.bash_profile', '.bashrc' and etc. that should be in user's HOME, place it in `liverootfs-<distro name>/etc/skel/` directory, this skel files will automatically copied over when user is created.
+3. Modify `liverootfs-<distro name>/root/live_script.sh` for your live session like, make temporary live user, set its password, enable systemd services and etc. This `live_script.sh` is executed inside initramfs just before live system is loaded, so whatever change you made to live session in this script only affect live session.
+4. Modify `liverootfs-<distro name>/root/post-install.sh` if you want your live distro installable, whatever value got from installer is passed to this script to configure final installed system, so this `post-install.sh` depends on your distro how to configure it. (see provided `post-install.sh`).
+5. Run `./mkiso.sh rootfs-<distro name>` to generate live iso. The iso output is `iso/` directory.
+
+\*Note: use `live-installer` in live session to install the distro to disk.
+
+## Requirements
+
+### for host
+
+- xorriso - to create iso
+- squashfs-tools - to compress rootfs
+- curl - to fetch necessary files
+- gimp - to create custom grub/syslinux splash (optional)
+
+### for target rootfs
+
+- grub-efi - to support both bios and uefi boot
+- squashfs-tools - to extract compressed rootfs to disk (optional, required if want to install to disk)
+- generic kernel - required for necessary kernel modules to make bootable liveiso possible

@@ -243,10 +243,10 @@ function init_image {
 	esac
 	mkdir -p $LFS/tools
 
-	# LFS 11.3 Section 7.3
+	# LFS 12.2 Section 7.3
 	mkdir -p $LFS/{dev,proc,sys,run}
 
-	# LFS 11.3 Section 7.5
+	# LFS 12.2 Section 7.5
 	mkdir -p $LFS/{boot,home,mnt,opt,srv}
 	mkdir -p $LFS/etc/{opt,sysconfig}
 	mkdir -p $LFS/lib/firmware
@@ -288,7 +288,7 @@ function init_image {
 		install_system_config $f
 	done
 	if [ -n "$KERNELCONFIG" ]; then
-		cp $KERNELCONFIG $LFS/boot/config-$KERNELVERS
+		sudo cp -v $KERNELCONFIG $LFS/boot/config-$KERNELVERS
 	fi
 
 	# install distro_configs
