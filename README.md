@@ -1,3 +1,5 @@
+# Table of Contents
+
 <!-- toc -->
 
 - [FennecOS](#fennecos)
@@ -197,7 +199,7 @@ And to to run it in Virtual Box you need first to convert the image file to vdi 
 
 Why not make it an installable iso so you can share it to anyone who wanna test it or install it on their machines. With this scripts, make a custom iso with your own customization and linux distro of your choice is just easy.
 
-## How to do it?
+### How to do it?
 
 Basically you just need your rootfs somewhere, in our case is "mnt/lfs" then run `./mkiso.sh mnt/lfs`, make sure you have mounted the FennecOS image using `sudo ./fennecos-build-img.sh --mount` or `sudo ./fennecos-build-img_archlinux.sh --mount` (if you are on arch based distro). Then the iso is ready in `iso/` directory. But if you want include some customization and installable, theres a few extra step.
 
