@@ -1,3 +1,19 @@
+<!-- toc -->
+
+- [FennecOS](#fennecos)
+  - [Where it Works best](#where-it-works-best)
+  - [How To Use](#how-to-use)
+  - [How It Works](#how-it-works)
+  - [Examples](#examples)
+  - [Booting](#booting)
+  - [Turn FennecOS image into iso !!](#turn-fennecos-image-into-iso-)
+  - [How to do it?](#how-to-do-it)
+  - [Requirements](#requirements)
+    - [for host](#for-host)
+    - [for target rootfs](#for-target-rootfs)
+
+<!-- tocstop -->
+
 # FennecOS
 
 FennecOS a Linux Distro from Scratch based on LFS version 12.2 for hackathon 2024
