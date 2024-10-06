@@ -17,8 +17,8 @@ echo "$LIVEUSER:$PASSWORD" | chpasswd -c SHA512
 
 # hostname for live
 case $NAME in
-	Slackware) echo linuxliveiso > /etc/HOSTNAME;;
-	        *) echo linuxliveiso > /etc/hostname;;
+	Slackware) echo fennecos-liveiso > /etc/HOSTNAME;;
+	        *) echo fennecos-liveiso > /etc/hostname;;
 esac
 
 # timezone
@@ -91,3 +91,20 @@ polkit.addRule(function(action, subject) {
 });
 _EOF
 fi
+# enable network
+dhcpcd enp0s3
+# Check if dhcpd is running
+if ! pgrep -x "dhcpd" > /dev/null
+then
+    echo "dhcpd is not running, starting it..."
+    dhcpd enp0s3
+    if [ $? -eq 0 ]; then
+        echo "dhcpd started successfully."
+    else
+        echo "Failed to start dhcpd."
+    fi
+else
+    echo "dhcpd is running."
+fi
+
+

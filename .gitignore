@@ -11,6 +11,8 @@ mnt/
 *.iso
 # too large for github (i think..)
 packages/
+x86_64/packages/
+aarch64/packages/
 
 liveiso/iso/
 liveiso/work/
