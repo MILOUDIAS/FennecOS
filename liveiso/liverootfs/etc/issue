@@ -9,5 +9,4 @@ Root User:
 
 Run 'live-installer' as root or using sudo to install this distro to disk.
 
-for network acess run on as root user or with sudo this command: 'dhcpcd'
-to test if network works run: 'ping google.com'
+for network acess run as root user or with sudo this command: ./start-dhcpcd.sh
