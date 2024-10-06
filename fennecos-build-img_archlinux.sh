@@ -243,10 +243,10 @@ function init_image {
 	esac
 	mkdir -p $LFS/tools
 
-	# LFS 11.3 Section 7.3
+	# LFS 12.2 Section 7.3
 	mkdir -p $LFS/{dev,proc,sys,run}
 
-	# LFS 11.3 Section 7.5
+	# LFS 12.2 Section 7.5
 	mkdir -p $LFS/{boot,home,mnt,opt,srv}
 	mkdir -p $LFS/etc/{opt,sysconfig}
 	mkdir -p $LFS/lib/firmware
@@ -288,7 +288,7 @@ function init_image {
 		install_system_config $f
 	done
 	if [ -n "$KERNELCONFIG" ]; then
-		cp $KERNELCONFIG $LFS/boot/config-$KERNELVERS
+		sudo cp -v $KERNELCONFIG $LFS/boot/config-$KERNELVERS
 	fi
 
 	# install distro_configs
@@ -432,37 +432,37 @@ function build_package {
 		local EXTRACTCMD=""
 
 	else
-		if [ -z "${!PKG_NAME}" ]; then
-			echo "ERROR: $NAME: package not found"
-			return 1
+		if [ -z "${!PKG_NAME}" ] || [[ "${!PKG_NAME}" == "" ]]; then
+			echo "$NAME is not an archive. Creating directory $NAME without extraction."
+			local EXTRACTCMD="mkdir -p $NAME"
+		else
+
+			# Get the file extension
+			local FILE=$(basename "${!PKG_NAME}")
+			case "$FILE" in
+			*.zip)
+				local EXTRACTCMD="unzip ${FILE} -d $NAME"
+				;;
+			*.tar.gz | *.tgz)
+				local EXTRACTCMD="tar -xzf ${FILE} -C $NAME --strip-components=1"
+				;;
+			*.tar.bz2)
+				local EXTRACTCMD="tar -xjf ${FILE} -C $NAME --strip-components=1"
+				;;
+			*.tar.xz)
+				local EXTRACTCMD="tar -xJf ${FILE} -C $NAME --strip-components=1"
+				;;
+			*.tar)
+				local EXTRACTCMD="tar -xf ${FILE} -C $NAME --strip-components=1"
+				;;
+			*)
+				echo "ERROR: $FILE has an unsupported file extension"
+				return 1
+				;;
+			esac
+			# local TARCMD="tar -xf $(basename ${!PKG_NAME}) -C $NAME --strip-components=1"
 		fi
-
-		# Get the file extension
-		local FILE=$(basename "${!PKG_NAME}")
-		case "$FILE" in
-		*.zip)
-			local EXTRACTCMD="unzip ${FILE} -d $NAME"
-			;;
-		*.tar.gz | *.tgz)
-			local EXTRACTCMD="tar -xzf ${FILE} -C $NAME --strip-components=1"
-			;;
-		*.tar.bz2)
-			local EXTRACTCMD="tar -xjf ${FILE} -C $NAME --strip-components=1"
-			;;
-		*.tar.xz)
-			local EXTRACTCMD="tar -xJf ${FILE} -C $NAME --strip-components=1"
-			;;
-		*.tar)
-			local EXTRACTCMD="tar -xf ${FILE} -C $NAME --strip-components=1"
-			;;
-		*)
-			echo "ERROR: $FILE has an unsupported file extension"
-			return 1
-			;;
-		esac
-		# local TARCMD="tar -xf $(basename ${!PKG_NAME}) -C $NAME --strip-components=1"
 	fi
-
 	local BUILD_INSTR="
         set -ex
         pushd sources > /dev/null

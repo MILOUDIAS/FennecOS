@@ -11,3 +11,8 @@ mnt/
 *.iso
 # too large for github (i think..)
 packages/
+
+liveiso/iso/
+liveiso/work/
+liveiso/liverootfs-*/etc/
+liveiso/rootfs-*/

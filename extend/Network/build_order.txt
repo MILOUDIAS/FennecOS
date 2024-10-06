@@ -7,6 +7,7 @@ curl
 git
 wget
 libxml2
+libarchive
 libxslt
 pcre2
 docutils
@@ -37,6 +38,7 @@ makeca_certs MAKECA
 duktape
 linuxpam
 polkit
+sudo
 cairo
 pycairo
 pygobject
@@ -45,5 +47,3 @@ vala
 iptables
 nss
 dhcpcd
-networkmanager
-# sudo
