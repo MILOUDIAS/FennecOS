@@ -3,16 +3,16 @@
 <!-- toc -->
 
 - [FennecOS](#fennecos)
-  - [Where it Works best](#where-it-works-best)
-  - [How To Use](#how-to-use)
-  - [How It Works](#how-it-works)
-  - [Examples](#examples)
-  - [Booting](#booting)
-  - [Turn FennecOS image into iso !!](#turn-fennecos-image-into-iso-)
-  - [How to do it?](#how-to-do-it)
-  - [Requirements](#requirements)
-    - [for host](#for-host)
-    - [for target rootfs](#for-target-rootfs)
+  * [Where it Works best](#where-it-works-best)
+  * [How To Use](#how-to-use)
+  * [How It Works](#how-it-works)
+  * [Examples](#examples)
+  * [Booting](#booting)
+  * [Turn FennecOS image into iso !!](#turn-fennecos-image-into-iso-)
+    + [How to do it?](#how-to-do-it)
+  * [Requirements](#requirements)
+    + [for host](#for-host)
+    + [for target rootfs](#for-target-rootfs)
 
 <!-- tocstop -->
 
@@ -201,9 +201,9 @@ Why not make it an installable iso so you can share it to anyone who wanna test 
 
 ### How to do it?
 
-Basically you just need your rootfs somewhere, in our case is "mnt/lfs" then run `./mkiso.sh mnt/lfs`, make sure you have mounted the FennecOS image using `sudo ./fennecos-build-img.sh --mount` or `sudo ./fennecos-build-img_archlinux.sh --mount` (if you are on arch based distro). Then the iso is ready in `iso/` directory. But if you want include some customization and installable, theres a few extra step.
+Basically you just need your rootfs somewhere, in our case is "mnt/lfs" then run `./liveiso/mkiso.sh mnt/lfs`, make sure you have mounted the FennecOS image using `sudo ./fennecos-build-img.sh --mount` or `sudo ./fennecos-build-img_archlinux.sh --mount` (if you are on arch based distro). Then the iso is ready in `/liveiso/iso/` directory. But if you want include some customization and installable, theres a few extra step.
 
-1. Prepare your rootfs of distro of your choice, i recommend write a script to do it, so you can just run it anytime when you want to make an iso. Just modify it to suit your need. And i recommend your rootfs directory named `rootfs-<distro name>`, because `mkiso.sh` script use that 'distro name' for customization dir & output iso. I suggest make it clean, less modified as possible, any modification put it in `liverootfs-<distro name>`, `live_script.sh` or `post-install.sh` instead.
+1. cd to liveiso folder and prepare your rootfs of distro of your choice, i recommend write a script to do it, so you can just run it anytime when you want to make an iso. Just modify it to suit your need. And i recommend your rootfs directory named `rootfs-<distro name>`, because `mkiso.sh` script use that 'distro name' for customization dir & output iso. I suggest make it clean, less modified as possible, any modification put it in `liverootfs-<distro name>`, `live_script.sh` or `post-install.sh` instead.
 2. Prepare your customization files inside `liverootfs-<distro name>` dir. You can copy over from `liverootfs` (global customization files) directory then modify it to suit your need. For config files like '.Xdefaults', '.bash_profile', '.bashrc' and etc. that should be in user's HOME, place it in `liverootfs-<distro name>/etc/skel/` directory, this skel files will automatically copied over when user is created.
 3. Modify `liverootfs-<distro name>/root/live_script.sh` for your live session like, make temporary live user, set its password, enable systemd services and etc. This `live_script.sh` is executed inside initramfs just before live system is loaded, so whatever change you made to live session in this script only affect live session.
 4. Modify `liverootfs-<distro name>/root/post-install.sh` if you want your live distro installable, whatever value got from installer is passed to this script to configure final installed system, so this `post-install.sh` depends on your distro how to configure it. (see provided `post-install.sh`).
