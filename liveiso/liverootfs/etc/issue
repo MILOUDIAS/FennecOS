@@ -9,4 +9,6 @@ Root User:
 
 Run 'live-installer' as root or using sudo to install this distro to disk.
 
-for network acess run as root user or with sudo this command: ./start-dhcpcd.sh
+for network acess run as root user or with sudo this command: './start-dhcpcd.sh', may take some minutes..
+
+

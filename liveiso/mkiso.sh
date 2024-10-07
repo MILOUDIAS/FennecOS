@@ -170,6 +170,7 @@ else
 	msg "squashing '$ROOTFS'..."
 	mksquashfs $ROOTFS work/_live/boot/rootfs.sfs \
 		-b 1048576 \
+		\
 		-comp xz \
 		-e $ROOTFS/root/* \
 		-e $ROOTFS/home/* \
