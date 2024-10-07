@@ -49,12 +49,12 @@ ROOTFS=$(realpath $1)
 #exit 1;;
 #esac
 
-distroname=${ROOTFS##*/}
-distroname=${distroname#*-}
-ISONAME=$distroname-$(date +"%Y%m%d")
+# distroname=${ROOTFS##*/}
+# distroname=${distroname#*-}
+ISONAME=FennecOS-$(date +"%Y%m%d")
 
 # your exclude dirs here eg: var/cache/somedir/*
-#YOUR_EXCLUDE_DIRS=""
+YOUR_EXCLUDE_DIRS="var/cache/sources/* /sources"
 
 # slackware
 EXCLUDE_DIRS="$EXCLUDE_DIRS var/lib/sbopkg/* var/cache/sbopkg/* var/lib/slackpkg/*"
@@ -170,6 +170,7 @@ else
 	msg "squashing '$ROOTFS'..."
 	mksquashfs $ROOTFS work/_live/boot/rootfs.sfs \
 		-b 1048576 \
+		\
 		-comp xz \
 		-e $ROOTFS/root/* \
 		-e $ROOTFS/home/* \

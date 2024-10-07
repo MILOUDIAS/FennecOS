@@ -17,8 +17,8 @@ echo "$LIVEUSER:$PASSWORD" | chpasswd -c SHA512
 
 # hostname for live
 case $NAME in
-	Slackware) echo linuxliveiso > /etc/HOSTNAME;;
-	        *) echo linuxliveiso > /etc/hostname;;
+	Slackware) echo fennecos-liveiso > /etc/HOSTNAME;;
+	        *) echo fennecos-liveiso > /etc/hostname;;
 esac
 
 # timezone
@@ -91,3 +91,5 @@ polkit.addRule(function(action, subject) {
 });
 _EOF
 fi
+
+
