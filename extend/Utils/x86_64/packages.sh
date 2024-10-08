@@ -56,3 +56,4 @@ export PKG_CAIRO=https://www.cairographics.org/releases/cairo-1.18.0.tar.xz
 export PKG_GRAPHVIZ=https://gitlab.com/graphviz/graphviz/-/archive/12.1.0/graphviz-12.1.0.tar.bz2
 export PKG_VALA=https://download.gnome.org/sources/vala/0.56/vala-0.56.17.tar.xz
 export PKG_NETWORKMANAGER=https://download.gnome.org/sources/NetworkManager/1.48/NetworkManager-1.48.8.tar.xz
+export PKG_OPENSSH=https://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-9.8p1.tar.gz

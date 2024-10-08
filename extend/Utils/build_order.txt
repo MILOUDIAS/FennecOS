@@ -18,7 +18,6 @@ unzip
 iptables
 libidn2
 libunistring
-#libpsl
 docbookxml
 docbookxslnons
 popt
@@ -39,6 +38,7 @@ duktape
 linuxpam
 polkit
 sudo
+openssh
 cairo
 pycairo
 pygobject
@@ -46,4 +46,3 @@ graphviz
 vala
 iptables
 nss
-dhcpcd
