@@ -1,6 +1,0 @@
-gettext
-bison
-perl
-python
-texinfo
-utillinux
