@@ -277,8 +277,10 @@ function init_image {
 	# removed at end of build
 	mkdir -p $LFS/home/tester
 	chown 101:101 $LFS/home/tester
-	mkdir -p $LFS/sources
-	cp ./x86_64/packages/* $LFS/sources
+	# mkdir -p $LFS/sources
+	mkdir -p $LFS/var/cache/sources
+	# cp ./x86_64/packages/* $LFS/sources
+	cp ./x86_64/packages/* $LFS/var/cache/sources
 	# cp ./aarch64/packages/* $LFS/sources
 
 	# install system_config files
@@ -426,7 +428,7 @@ function build_package {
 	local PKG_NAME=PKG_$([ -n "$NAME_OVERRIDE" ] && echo $NAME_OVERRIDE || echo $NAME | tr a-z A-Z)
 
 	local LOG_FILE=$([ $PHASE -eq 5 ] && echo "$EXTENSION/logs/${NAME}.log" || echo "$LOG_DIR/${NAME}_phase${PHASE}.log")
-	local SCRIPT_PATH=$([ $PHASE -eq 5 ] && echo $EXTENSION/scripts/${NAME}.sh || echo ./phase${PHASE}/${NAME}.sh)
+	local SCRIPT_PATH=$([ $PHASE -eq 5 ] && echo $EXTENSION/scripts/${NAME}.sh || echo ./x86_64/phase${PHASE}/${NAME}.sh)
 
 	if [ "$NAME_OVERRIDE" == "_" ]; then
 		local EXTRACTCMD=""
@@ -463,18 +465,29 @@ function build_package {
 			# local TARCMD="tar -xf $(basename ${!PKG_NAME}) -C $NAME --strip-components=1"
 		fi
 	fi
+	# local BUILD_INSTR="
+	#        set -ex
+	#        pushd sources > /dev/null
+	#        rm -rf $NAME
+	#        mkdir $NAME
+	#        $EXTRACTCMD
+	#        cd $NAME
+	#        $(cat $SCRIPT_PATH)
+	#        popd
+	#        rm -r sources/$NAME
+	#    "
+
 	local BUILD_INSTR="
         set -ex
-        pushd sources > /dev/null
+        pushd var/cache/sources > /dev/null
         rm -rf $NAME
         mkdir $NAME
         $EXTRACTCMD
         cd $NAME
         $(cat $SCRIPT_PATH)
         popd
-        rm -r sources/$NAME
+        rm -r var/cache/sources/$NAME
     "
-
 	pushd $LFS >/dev/null
 
 	if $CHROOT; then
@@ -525,6 +538,7 @@ function build_phase {
 	fi
 
 	if [ $PHASE -ne 1 -a ! -f $LFS/root/.phase$((PHASE - 1)) ]; then
+		# if [ $PHASE -ne 1 -a ! -f $LFS/root/.x86_64/phase$((PHASE - 1)) ]; then
 		echo "ERROR: phases preceeding phase $PHASE have not been built"
 		return 1
 	fi
@@ -536,7 +550,7 @@ function build_phase {
 		CHROOT=true
 	fi
 
-	local PHASE_DIR=./phase$PHASE
+	local PHASE_DIR=./x86_64/phase$PHASE
 
 	# Phase 5 == a build extension
 	[ $PHASE -eq 5 ] && PHASE_DIR=$EXTENSION
@@ -614,7 +628,8 @@ function build_extension {
 	$VERBOSE && set -x
 
 	# copy packages onto LFS image
-	cp -f $EXTENSION/x86_64/packages/* $LFS/sources/
+	# cp -f $EXTENSION/x86_64/packages/* $LFS/sources/
+	cp -f $EXTENSION/x86_64/packages/* $LFS/var/cache/sources/
 
 	# install system_config files if present
 	if [ -d "$EXTENSION/system_config" ]; then
