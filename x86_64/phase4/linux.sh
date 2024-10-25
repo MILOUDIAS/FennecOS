@@ -23,3 +23,5 @@ cp -v System.map /boot/System.map-$KERNELVERS
 
 install -d /usr/share/doc/linux-$KERNELVERS
 cp -r Documentation/* /usr/share/doc/linux-$KERNELVERS
+
+echo "linux 6.10.5 installed on $(date)" >>/var/log/packages.log

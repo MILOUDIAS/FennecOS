@@ -11,13 +11,14 @@ make PREFIX=/usr install
 
 cp -a libbz2.so.* /usr/lib
 if [ ! -L "/usr/lib/libbz2.so" ]; then
-    # Perform operations if it's not a symbolic link
-    echo "This is not a symbolic link."
-    ln -s libbz2.so.1.0.8 /usr/lib/libbz2.so
+	# Perform operations if it's not a symbolic link
+	echo "This is not a symbolic link."
+	ln -s libbz2.so.1.0.8 /usr/lib/libbz2.so
 fi
 cp bzip2-shared /usr/bin/bzip2
 for i in /usr/bin/{bzcat,bunzip2}; do
-  ln -sf bzip2 $i
+	ln -sf bzip2 $i
 done
 rm -f /usr/lib/libbz2.a
 
+echo "bzip2 installed on $(date)" >>/var/log/packages.log

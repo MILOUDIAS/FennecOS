@@ -4,21 +4,20 @@ patch -Np1 -i ../$(basename $PATCH_GLIBC)
 mkdir -v build
 cd build
 
-echo "rootsbindir=/usr/sbin" > configparms
+echo "rootsbindir=/usr/sbin" >configparms
 
-../configure --prefix=/usr                            \
-             --disable-werror                         \
-             --enable-kernel=4.19                     \
-             --enable-stack-protector=strong          \
-             --disable-nscd                           \
-             libc_cv_slibdir=/usr/lib
+../configure --prefix=/usr \
+	--disable-werror \
+	--enable-kernel=4.19 \
+	--enable-stack-protector=strong \
+	--disable-nscd \
+	libc_cv_slibdir=/usr/lib
 make
 
-if $RUN_TESTS
-then
-    set +e
-    make check
-    set -e
+if $RUN_TESTS; then
+	set +e
+	make check
+	set -e
 fi
 
 touch /etc/ld.so.conf
@@ -29,7 +28,7 @@ cp ../nscd/nscd.conf /etc/nscd.conf
 mkdir -p /var/cache/nscd
 
 mkdir -p /usr/lib/locale
-localedef -i POSIX -f UTF-8 C.UTF-8 2> /dev/null || true
+localedef -i POSIX -f UTF-8 C.UTF-8 2>/dev/null || true
 localedef -i cs_CZ -f UTF-8 cs_CZ.UTF-8
 localedef -i de_DE -f ISO-8859-1 de_DE
 localedef -i de_DE@euro -f ISO-8859-15 de_DE@euro
@@ -53,7 +52,7 @@ localedef -i it_IT -f ISO-8859-1 it_IT
 localedef -i it_IT -f ISO-8859-15 it_IT@euro
 localedef -i it_IT -f UTF-8 it_IT.UTF-8
 localedef -i ja_JP -f EUC-JP ja_JP
-localedef -i ja_JP -f SHIFT_JIS ja_JP.SJIS 2> /dev/null || true
+localedef -i ja_JP -f SHIFT_JIS ja_JP.SJIS 2>/dev/null || true
 localedef -i ja_JP -f UTF-8 ja_JP.UTF-8
 localedef -i nl_NL@euro -f ISO-8859-15 nl_NL@euro
 localedef -i ru_RU -f KOI8-R ru_RU.KOI8-R
@@ -68,18 +67,18 @@ localedef -i zh_TW -f UTF-8 zh_TW.UTF-8
 make localedata/install-locales
 # only used for tests
 localedef -i C -f UTF-8 C.UTF-8
-localedef -i ja_JP -f SHIFT_JIS ja_JP.SJIS 2> /dev/null || true
+localedef -i ja_JP -f SHIFT_JIS ja_JP.SJIS 2>/dev/null || true
 
 tar -xf ../../$(basename $PKG_TZDATA)
 
 ZONEINFO=/usr/share/zoneinfo
 mkdir -p $ZONEINFO/{posix,right}
 
-for tz in etcetera southamerica northamerica europe africa antarctica  \
-          asia australasia backward; do
-    zic -L /dev/null   -d $ZONEINFO       ${tz}
-    zic -L /dev/null   -d $ZONEINFO/posix ${tz}
-    zic -L leapseconds -d $ZONEINFO/right ${tz}
+for tz in etcetera southamerica northamerica europe africa antarctica \
+	asia australasia backward; do
+	zic -L /dev/null -d $ZONEINFO ${tz}
+	zic -L /dev/null -d $ZONEINFO/posix ${tz}
+	zic -L leapseconds -d $ZONEINFO/right ${tz}
 done
 
 cp zone.tab zone1970.tab iso3166.tab $ZONEINFO
@@ -88,3 +87,4 @@ unset ZONEINFO
 
 ln -sf /usr/share/zoneinfo/Africa/Algiers /etc/localtime
 
+echo "glibc installed on $(date)" >>/var/log/packages.log

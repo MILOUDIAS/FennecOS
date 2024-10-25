@@ -74,10 +74,11 @@ export PKG_READLINE=https://ftp.gnu.org/gnu/readline/readline-8.2.13.tar.gz
 export PKG_SED=https://ftp.gnu.org/gnu/sed/sed-4.9.tar.xz
 # NEW
 export PKG_SETUPTOOLS=https://pypi.org/packages/source/s/setuptools/setuptools-72.2.0.tar.gz
-export PKG_SUDO=https://www.sudo.ws/dist/sudo-1.9.13p1.tar.gz
 export PKG_SHADOW=https://github.com/shadow-maint/shadow/releases/download/4.16.0/shadow-4.16.0.tar.xz
 # export PKG_SYSKLOGD=https://github.com/troglobit/sysklogd/releases/download/v2.6.1/sysklogd-2.6.1.tar.gz
 # NEW
+export PKG_LINUXPAM=https://github.com/linux-pam/linux-pam/releases/download/v1.6.1/Linux-PAM-1.6.1.tar.xz
+export PKG_POLKIT=https://github.com/polkit-org/polkit/archive/125/polkit-125.tar.gz
 export PKG_SYSTEMD=https://github.com/systemd/systemd/archive/v256.4/systemd-256.4.tar.gz
 # NEW
 export PKG_SYSTEMD_MANPAGES=https://anduin.linuxfromscratch.org/LFS/systemd-man-pages-256.4.tar.xz
@@ -95,6 +96,17 @@ export PKG_XMLPARSER=https://cpan.metacpan.org/authors/id/T/TO/TODDR/XML-Parser-
 export PKG_XZ=https://github.com//tukaani-project/xz/releases/download/v5.6.2/xz-5.6.2.tar.xz
 export PKG_ZLIB=https://www.zlib.net/fossils/zlib-1.3.1.tar.gz
 export PKG_ZSTD=https://github.com/facebook/zstd/releases/download/v1.5.6/zstd-1.5.6.tar.gz
+export PKG_SYSTEMDUNITS=https://www.linuxfromscratch.org/blfs/downloads/12.2-systemd/blfs-systemd-units-20240801.tar.xz
+export PKG_DHCPCD=https://github.com/NetworkConfiguration/dhcpcd/releases/download/v10.0.8/dhcpcd-10.0.8.tar.xz
+export PKG_SUDO=https://www.sudo.ws/dist/sudo-1.9.15p5.tar.gz
+
+export PKG_CURL=https://curl.se/download/curl-8.9.1.tar.xz
+export PKG_LIBPSL=https://github.com/rockdaboot/libpsl/releases/download/0.21.5/libpsl-0.21.5.tar.gz
+export PKG_P11KIT=https://github.com/p11-glue/p11-kit/releases/download/0.25.5/p11-kit-0.25.5.tar.xz
+export PKG_MAKECA=https://github.com/lfs-book/make-ca/archive/v1.14/make-ca-1.14.tar.gz
+export PKG_LIBTASN1=https://ftp.gnu.org/gnu/libtasn1/libtasn1-4.19.0.tar.gz
+export PKG_WGET=https://ftp.gnu.org/gnu/wget/wget-1.24.5.tar.gz
+export PKG_GIT=https://www.kernel.org/pub/software/scm/git/git-2.46.0.tar.xz
 #++++++++++++++++++ Patches
 export PATCH_BZIP2=https://www.linuxfromscratch.org/patches/lfs/12.2/bzip2-1.0.8-install_docs-1.patch
 export PATCH_COREUTILS=https://www.linuxfromscratch.org/patches/lfs/12.2/coreutils-9.5-i18n-2.patch

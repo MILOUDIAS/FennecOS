@@ -3,12 +3,12 @@
 
 make
 
-if $RUN_TESTS
-then
-    set +e
-    make check
-    set -e
+if $RUN_TESTS; then
+	set +e
+	make check
+	set -e
 fi
 
 make docdir=/usr/share/doc/check-0.15.2 install
 
+echo "check installed on $(date)" >>/var/log/packages.log

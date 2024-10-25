@@ -8,15 +8,15 @@ sed -i 's/resizecons.8 //' docs/man/man8/Makefile.in
 
 make
 
-if $RUN_TESTS
-then
-    set +e
-    make check
-    set -e
+if $RUN_TESTS; then
+	set +e
+	make check
+	set -e
 fi
 
 make install
 
-mkdir -pv           /usr/share/doc/kbd-2.6.4
+mkdir -pv /usr/share/doc/kbd-2.6.4
 cp -R -v docs/doc -T /usr/share/doc/kbd-2.6.4
 
+echo "kbd 2.6.4 installed on $(date)" >>/var/log/packages.log

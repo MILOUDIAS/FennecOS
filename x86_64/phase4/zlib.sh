@@ -3,14 +3,14 @@
 
 make
 
-if $RUN_TESTS
-then
-    set +e
-    make check
-    set -e
+if $RUN_TESTS; then
+	set +e
+	make check
+	set -e
 fi
 
 make install
 
 rm -f /usr/lib/libz.a
 
+echo "zlib installed on $(date)" >>/var/log/packages.log

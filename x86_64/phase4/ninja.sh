@@ -10,15 +10,15 @@ sed -i '/int Guess/a \
 
 python3 configure.py --bootstrap
 
-if $RUN_TESTS
-then
-    set +e
-    ./ninja ninja_test
-    ./ninja_test --gtest_filter=-SubprocessTest.SetWithLots
-    set -e
+if $RUN_TESTS; then
+	set +e
+	./ninja ninja_test
+	./ninja_test --gtest_filter=-SubprocessTest.SetWithLots
+	set -e
 fi
 
 install -m755 ninja /usr/bin/
 install -Dm644 misc/bash-completion /usr/share/bash-completion/completions/ninja
-install -Dm644 misc/zsh-completion  /usr/share/zsh/site-functions/_ninja
+install -Dm644 misc/zsh-completion /usr/share/zsh/site-functions/_ninja
 
+echo "ninja installed on $(date)" >>/var/log/packages.log

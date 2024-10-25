@@ -1,16 +1,16 @@
 # GDBM Phase 4
-./configure --prefix=/usr    \
-            --disable-static \
-            --enable-libgdbm-compat
+./configure --prefix=/usr \
+	--disable-static \
+	--enable-libgdbm-compat
 
 make
 
-if $RUN_TESTS
-then
-    set +e
-    make check
-    set -e
+if $RUN_TESTS; then
+	set +e
+	make check
+	set -e
 fi
 
 make install
 
+echo "gdbm installed on $(date)" >>/var/log/packages.log

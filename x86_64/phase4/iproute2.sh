@@ -6,5 +6,7 @@ make NETNS_RUN_DIR=/run/netns
 
 make SBINDIR=/usr/sbin install
 
-mkdir -pv             /usr/share/doc/iproute2-6.10.0
+mkdir -pv /usr/share/doc/iproute2-6.10.0
 cp -v COPYING README* /usr/share/doc/iproute2-6.10.0
+
+echo "iproute2 6.10.0 installed on $(date)" >>/var/log/packages.log

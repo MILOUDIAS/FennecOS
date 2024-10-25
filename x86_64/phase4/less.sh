@@ -5,3 +5,4 @@ make
 
 make install
 
+echo "less installed on $(date)" >>/var/log/packages.log

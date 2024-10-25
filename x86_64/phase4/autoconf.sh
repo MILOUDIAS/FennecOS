@@ -4,12 +4,12 @@
 
 make
 
-if $RUN_TESTS
-then
-    set +e
-    make check TESTSUITEFLAGS=-j4
-    set -e
+if $RUN_TESTS; then
+	set +e
+	make check TESTSUITEFLAGS=-j4
+	set -e
 fi
 
-make install 
+make install
 
+echo "autoconf installed on $(date)" >>/var/log/packages.log

@@ -3,12 +3,12 @@
 
 make
 
-if $RUN_TESTS
-then
-    set +e
-    make -j1 check
-    set -e
+if $RUN_TESTS; then
+	set +e
+	make -j1 check
+	set -e
 fi
 
 make install
 
+echo "gpref installed on $(date)" >>/var/log/packages.log

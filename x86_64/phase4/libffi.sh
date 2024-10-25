@@ -1,16 +1,16 @@
 # Libffi Phase 4
-./configure --prefix=/usr          \
-            --disable-static       \
-            --with-gcc-arch=native \
+./configure --prefix=/usr \
+	--disable-static \
+	--with-gcc-arch=native
 
 make
 
-if $RUN_TESTS
-then
-    set +e
-    make check
-    set -e
+if $RUN_TESTS; then
+	set +e
+	make check
+	set -e
 fi
 
 make install
 
+echo "libffi installed on $(date)" >>/var/log/packages.log

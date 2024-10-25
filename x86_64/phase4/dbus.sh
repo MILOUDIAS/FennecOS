@@ -13,3 +13,5 @@ make
 make install
 
 ln -sfv /etc/machine-id /var/lib/dbus
+
+echo "dbus installed on $(date)" >>/var/log/packages.log

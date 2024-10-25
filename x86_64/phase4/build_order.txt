@@ -69,6 +69,8 @@ texinfo
 vim
 markupsafe
 jinja
+linuxpam
+#polkit
 systemd
 dbus
 mandb
@@ -76,4 +78,15 @@ procps
 utillinux
 e2fsprogs
 linux
+# Next packages are from BLFS
+sudo
+dhcpcd
+libtasn1
+libpsl
+wget
+makeca_install MAKECA
+p11kit
+makeca_certs MAKECA
+curl
+git
 grub

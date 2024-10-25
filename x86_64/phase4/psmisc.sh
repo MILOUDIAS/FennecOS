@@ -5,3 +5,4 @@ make
 
 make install
 
+echo "psmisc installed on $(date)" >>/var/log/packages.log

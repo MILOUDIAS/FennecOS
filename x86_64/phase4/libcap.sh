@@ -2,12 +2,12 @@
 sed -i '/install -m.*STA/d' libcap/Makefile
 make prefix=/usr lib=lib
 
-if $RUN_TESTS
-then
-    set +e
-    make test
-    set -e
+if $RUN_TESTS; then
+	set +e
+	make test
+	set -e
 fi
 
 make prefix=/usr lib=lib install
 
+echo "libcap installed on $(date)" >>/var/log/packages.log

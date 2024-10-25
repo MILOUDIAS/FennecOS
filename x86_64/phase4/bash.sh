@@ -1,29 +1,27 @@
 # Bash Phase 4
-./configure --prefix=/usr             \
-            --without-bash-malloc     \
-            --with-installed-readline \
-            bash_cv_strtold_broken=no \
-            --docdir=/usr/share/doc/bash-5.2.32
+./configure --prefix=/usr \
+	--without-bash-malloc \
+	--with-installed-readline \
+	bash_cv_strtold_broken=no \
+	--docdir=/usr/share/doc/bash-5.2.32
 make
 
-
-if $RUN_TESTS
-then
-    set +e
-chown -R tester .
-su -s /usr/bin/expect tester << EOF
+if $RUN_TESTS; then
+	set +e
+	chown -R tester .
+	su -s /usr/bin/expect tester <<EOF
 set timeout -1
 spawn make tests
 expect eof
 lassign [wait] _ _ _ value
 exit $value
 EOF
-    set -e
+	set -e
 fi
 
 make install
 
-cat > /etc/profile << "EOF"
+cat >/etc/profile <<"EOF"
 # Begin /etc/profile
 # Written for Beyond Linux From Scratch
 # by James Robertson <jameswrobertson@earthlink.net>
@@ -227,7 +225,7 @@ EOF
 
 install --directory --mode=0755 --owner=root --group=root /etc/profile.d
 
-cat > /etc/profile.d/bash_completion.sh << "EOF"
+cat >/etc/profile.d/bash_completion.sh <<"EOF"
 # Begin /etc/profile.d/bash_completion.sh
 # Import bash completion scripts
 
@@ -266,7 +264,7 @@ EOF
 
 install --directory --mode=0755 --owner=root --group=root /etc/bash_completion.d
 
-cat > /etc/profile.d/dircolors.sh << "EOF"
+cat >/etc/profile.d/dircolors.sh <<"EOF"
 # Setup for /bin/ls and /bin/grep to support color, the alias is in /etc/bashrc.
 if [ -f "/etc/dircolors" ] ; then
         eval $(dircolors -b /etc/dircolors)
@@ -280,7 +278,7 @@ alias ls='ls --color=auto'
 alias grep='grep --color=auto'
 EOF
 
-cat > /etc/profile.d/extrapaths.sh << "EOF"
+cat >/etc/profile.d/extrapaths.sh <<"EOF"
 if [ -d /usr/local/lib/pkgconfig ] ; then
         pathappend /usr/local/lib/pkgconfig PKG_CONFIG_PATH
 fi
@@ -300,7 +298,7 @@ pathappend /usr/share/man  MANPATH
 pathappend /usr/share/info INFOPATH
 EOF
 
-cat > /etc/profile.d/readline.sh << "EOF"
+cat >/etc/profile.d/readline.sh <<"EOF"
 # Set up the INPUTRC environment variable.
 if [ -z "$INPUTRC" -a ! -f "$HOME/.inputrc" ] ; then
         INPUTRC=/etc/inputrc
@@ -308,7 +306,7 @@ fi
 export INPUTRC
 EOF
 
-cat > /etc/profile.d/umask.sh << "EOF"
+cat >/etc/profile.d/umask.sh <<"EOF"
 # By default, the umask should be set.
 if [ "$(id -gn)" = "$(id -un)" -a $EUID -gt 99 ] ; then
   umask 002
@@ -317,7 +315,7 @@ else
 fi
 EOF
 
-cat > /etc/bashrc << "EOF"
+cat >/etc/bashrc <<"EOF"
 # Begin /etc/bashrc
 # Written for Beyond Linux From Scratch
 # by James Robertson <jameswrobertson@earthlink.net>
@@ -355,7 +353,7 @@ unset RED GREEN NORMAL
 # End /etc/bashrc
 EOF
 
-cat > ~/.bash_profile << "EOF"
+cat >~/.bash_profile <<"EOF"
 # Begin ~/.bash_profile
 # Written for Beyond Linux From Scratch
 # by James Robertson <jameswrobertson@earthlink.net>
@@ -383,7 +381,7 @@ fi
 # End ~/.bash_profile
 EOF
 
-cat > ~/.profile << "EOF"
+cat >~/.profile <<"EOF"
 # Begin ~/.profile
 # Personal environment variables and startup programs.
 
@@ -397,7 +395,7 @@ fi
 # End ~/.profile
 EOF
 
-cat > ~/.bashrc << "EOF"
+cat >~/.bashrc <<"EOF"
 # Begin ~/.bashrc
 # Written for Beyond Linux From Scratch
 # by James Robertson <jameswrobertson@earthlink.net>
@@ -415,11 +413,13 @@ fi
 
 # Set up user specific i18n variables
 #export LANG=<ll>_<CC>.<charmap><@modifiers>
+# expot for go lang
+#export PATH=$PATH:/usr/local/go/bin
 
 # End ~/.bashrc
 EOF
 
-cat > ~/.bash_logout << "EOF"
+cat >~/.bash_logout <<"EOF"
 # Begin ~/.bash_logout
 # Written for Beyond Linux From Scratch
 # by James Robertson <jameswrobertson@earthlink.net>
@@ -429,6 +429,7 @@ cat > ~/.bash_logout << "EOF"
 # End ~/.bash_logout
 EOF
 
-dircolors -p > /etc/dircolors
+dircolors -p >/etc/dircolors
 
+echo "bash installed on $(date)" >>/var/log/packages.log
 #exec /usr/bin/bash --login
