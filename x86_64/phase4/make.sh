@@ -11,4 +11,4 @@ fi
 
 make install
 
-echo "make installed on $(date)" >>/var/log/packages.log
+echo "make 4.4.1 installed on $(date)" >>/var/log/packages.log

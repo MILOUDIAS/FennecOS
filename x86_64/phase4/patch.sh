@@ -11,4 +11,4 @@ fi
 
 make install
 
-echo "patch installed on $(date)" >>/var/log/packages.log
+echo "patch 2.7.6 installed on $(date)" >>/var/log/packages.log

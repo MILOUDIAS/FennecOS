@@ -27,6 +27,14 @@ mkdir build &&
 
 ninja install
 
+systemd-machine-id-setup
+# systemctl daemon-reexec
+systemctl preset-all
+systemctl stop systemd-networkd
+systemctl disable systemd-networkd
+systemctl stop systemd-resolved
+systemctl disable systemd-resolved
+
 grep 'pam_systemd' /etc/pam.d/system-session ||
 	cat >>/etc/pam.d/system-session <<"EOF"
 # Begin Systemd addition
@@ -58,13 +66,5 @@ EOF
 tar -xf ../../systemd-man-pages-256.4.tar.xz \
 	--no-same-owner --strip-components=1 \
 	-C /usr/share/man
-
-systemd-machine-id-setup
-# systemctl daemon-reexec
-systemctl preset-all
-systemctl stop systemd-networkd
-systemctl disable systemd-networkd
-systemctl stop systemd-resolved
-systemctl disable systemd-resolved
 
 echo "systemd 256.4 installed on $(date)" >>/var/log/packages.log

@@ -2,47 +2,16 @@
 # <scriptname> (without .sh)
 
 libndp
-libpsl
-curl
-git
-wget
-libxml2
-libarchive
-libxslt
-pcre2
-docutils
-icu
-packaging
-glib
-unzip
-iptables
 libidn2
 libunistring
-docbookxml
-docbookxslnons
-popt
-slang
-gpm
-newt
-nspr
-sqlite
-pixman
-libpng
-freetype2
-fontconfig
 libtasn1
 makeca_install MAKECA
 p11kit
 makeca_certs MAKECA
+libpsl
+wget
+curl
+git
 duktape
 linuxpam
-polkit
-sudo
-openssh
-cairo
-pycairo
-pygobject
-graphviz
-vala
-iptables
-nss
+#polkit

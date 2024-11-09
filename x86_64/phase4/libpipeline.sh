@@ -11,4 +11,4 @@ fi
 
 make install
 
-echo "libpipeline installed on $(date)" >>/var/log/packages.log
+echo "libpipeline 1.5.8 installed on $(date)" >>/var/log/packages.log

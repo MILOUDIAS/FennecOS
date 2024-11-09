@@ -22,15 +22,15 @@ make install &&
 	install -v -m644 INSTALL LICENCE OVERVIEW README* \
 		/usr/share/doc/openssh-9.8p1
 
-echo "PermitRootLogin no" >>/etc/ssh/sshd_config
+echo "PermitRootLogin yes" >>/etc/ssh/sshd_config
 
-echo "PasswordAuthentication no" >>/etc/ssh/sshd_config &&
-	echo "KbdInteractiveAuthentication no" >>/etc/ssh/sshd_config
+echo "PasswordAuthentication yes" >>/etc/ssh/sshd_config &&
+	echo "KbdInteractiveAuthentication yes" >>/etc/ssh/sshd_config
 
 # if linux-PAM is installed
-sed 's@d/login@d/sshd@g' /etc/pam.d/login >/etc/pam.d/sshd &&
-	chmod 644 /etc/pam.d/sshd &&
-	echo "UsePAM yes" >>/etc/ssh/sshd_config
+# sed 's@d/login@d/sshd@g' /etc/pam.d/login >/etc/pam.d/sshd &&
+# 	chmod 644 /etc/pam.d/sshd &&
+# 	echo "UsePAM yes" >>/etc/ssh/sshd_config
 
 tar -xvf ../$(basename $PKG_SYSTEMDUNITS)
 # cd ../$(basename $PKG_SYSTEMDUNITS)

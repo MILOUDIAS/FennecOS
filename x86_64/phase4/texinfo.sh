@@ -11,4 +11,4 @@ fi
 
 make install
 
-echo "texinfo installed on $(date)" >>/var/log/packages.log
+echo "texinfo 7.1 installed on $(date)" >>/var/log/packages.log
