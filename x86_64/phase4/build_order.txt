@@ -89,4 +89,5 @@ p11kit
 makeca_certs MAKECA
 curl
 git
+sahl
 grub

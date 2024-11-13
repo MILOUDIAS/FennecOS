@@ -107,6 +107,7 @@ export PKG_MAKECA=https://github.com/lfs-book/make-ca/archive/v1.14/make-ca-1.14
 export PKG_LIBTASN1=https://ftp.gnu.org/gnu/libtasn1/libtasn1-4.19.0.tar.gz
 export PKG_WGET=https://ftp.gnu.org/gnu/wget/wget-1.24.5.tar.gz
 export PKG_GIT=https://www.kernel.org/pub/software/scm/git/git-2.46.0.tar.xz
+export PKG_SAHL=https://github.com/abdurahman-harouat/sahl
 #++++++++++++++++++ Patches
 export PATCH_BZIP2=https://www.linuxfromscratch.org/patches/lfs/12.2/bzip2-1.0.8-install_docs-1.patch
 export PATCH_COREUTILS=https://www.linuxfromscratch.org/patches/lfs/12.2/coreutils-9.5-i18n-2.patch
