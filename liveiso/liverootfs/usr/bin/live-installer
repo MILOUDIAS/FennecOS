@@ -23,9 +23,9 @@ showkeymap() {
 }
 
 showlocale() {
-	echo "en_US UTF-8" > /tmp/locale && localefile=/tmp/locale # dummy
-	[ -f /etc/locales ] && localefile=/etc/locales # venom
-	[ -f /etc/locale.gen ] && localefile=/etc/locale.gen # arch & crux
+	echo "en_US UTF-8" >/tmp/locale && localefile=/tmp/locale                # dummy
+	[ -f /etc/locales ] && localefile=/etc/locales                           # venom
+	[ -f /etc/locale.gen ] && localefile=/etc/locale.gen                     # arch & crux
 	[ -f /etc/default/libc-locales ] && localefile=/etc/default/libc-locales # void
 	grep "UTF-8" $localefile | awk '{print $1}' | sed 's/^#//;s/\.UTF-8//;/@/d'
 	rm -f /tmp/locale
@@ -52,7 +52,7 @@ prompt_user() {
 	cols=$(tput cols)
 	text=$@
 	length=${#text}
-	pad=$(( (cols - length) / 2 ))
+	pad=$(((cols - length) / 2))
 	printf "%*s%s" $pad "" "$text"
 }
 
@@ -60,7 +60,7 @@ cprint() {
 	cols=$(tput cols)
 	text=$@
 	length=${#text}
-	pad=$(( (cols - length) / 2 ))
+	pad=$(((cols - length) / 2))
 	printf "%*s%s\n" $pad "" "$text"
 }
 
@@ -72,10 +72,10 @@ printline() {
 choose_part() {
 	unset part createpart filesystem_var
 	case $1 in
-		1) grep_regex=EFI;;
-		2) grep_regex=BIOS;;
-		3) grep_regex=swap;;
-		*) grep_regex="-Ev (swap|Extended|EFI|BIOS|Empty)"
+	1) grep_regex=EFI ;;
+	2) grep_regex=BIOS ;;
+	3) grep_regex=swap ;;
+	*) grep_regex="-Ev (swap|Extended|EFI|BIOS|Empty)" ;;
 	esac
 	[ "$root_var" ] && exclude_root="grep -v ^${root_var%%:*}" || exclude_root=cat
 	[ "$home_var" ] && exclude_home="grep -v ^${home_var%%:*}" || exclude_home=cat
@@ -83,7 +83,7 @@ choose_part() {
 		cclear
 		count=0
 		for i in $(fdisk -l | grep ^\/dev | grep -v ventoy | grep $grep_regex | awk '{print $1}' | sort | $exclude_root | $exclude_home); do
-			count=$((count+1))
+			count=$((count + 1))
 			ii=$(get_partition_info $i)
 			cprint "$count. $ii"
 		done
@@ -94,61 +94,63 @@ choose_part() {
 		[ "$input" -gt "$count" ] && continue
 		part=$(fdisk -l | grep ^\/dev | grep -v ventoy | grep $grep_regex | awk '{print $1}' | sort | $exclude_root | $exclude_home | head -n$input | tail -n1)
 		case $1 in
-			1|2);;
-			3) 	if [ "$(lsblk -nrp -o FSTYPE $part)" = swap ]; then
-					while [ ! "$createpart" ]; do
-						cclear
-						cprint "1. create swap"
-						cprint "0. skip create swap"
-						prompt_user "Create swap partition for '$part'?: "
-						read input
-						[ "$input" = 0 ] && createpart=$input
-						[ "$input" = 1 ] && createpart=$input
+		1 | 2) ;;
+		3) if [ "$(lsblk -nrp -o FSTYPE $part)" = swap ]; then
+			while [ ! "$createpart" ]; do
+				cclear
+				cprint "1. create swap"
+				cprint "0. skip create swap"
+				prompt_user "Create swap partition for '$part'?: "
+				read input
+				[ "$input" = 0 ] && createpart=$input
+				[ "$input" = 1 ] && createpart=$input
+			done
+		else
+			createpart=1
+		fi ;;
+		*)
+			if [ "$(lsblk -nrp -o FSTYPE $part)" ]; then
+				while [ ! "$createpart" ]; do
+					cclear
+					cprint "1. create filesystem"
+					cprint "0. skip create filesystem"
+					prompt_user "Create filesystem for '$part'?: "
+					read input
+					[ "$input" = 0 ] && createpart=$input
+					[ "$input" = 1 ] && createpart=$input
+				done
+			else
+				createpart=1
+			fi
+			if [ "$createpart" -gt 0 ]; then
+				while [ ! "$filesystem_var" ]; do
+					fs="ext4 ext3 ext2 btrfs reiserfs xfs"
+					cclear
+					count=0
+					for i in $fs; do
+						command -v mkfs.$i >/dev/null || continue
+						count=$((count + 1))
+						cprint "$count. $i"
 					done
-				else
-					createpart=1
-				fi;;
-			*)	if [ "$(lsblk -nrp -o FSTYPE $part)" ]; then
-					while [ ! "$createpart" ]; do
-						cclear
-						cprint "1. create filesystem"
-						cprint "0. skip create filesystem"
-						prompt_user "Create filesystem for '$part'?: "
-						read input
-						[ "$input" = 0 ] && createpart=$input
-						[ "$input" = 1 ] && createpart=$input
-					done
-				else
-					createpart=1
-				fi
-				if [ "$createpart" -gt 0 ]; then
-					while [ ! "$filesystem_var" ]; do
-						fs="ext4 ext3 ext2 btrfs reiserfs xfs"
-						cclear
-						count=0
-						for i in $fs; do
-							command -v mkfs.$i >/dev/null || continue
-							count=$((count+1))
-							cprint "$count. $i"
-						done
-						prompt_user "Choose filesystem type for '$part' [1-$count]: "
-						read input
-						[ "$input" = 0 ] && continue
-						[ "$input" -gt "$count" ] && continue
-						filesystem_var=$(echo $fs | tr ' ' '\n' | head -n$input | tail -n1)
-					done
-				else
-					filesystem_var=skip
-				fi;;
+					prompt_user "Choose filesystem type for '$part' [1-$count]: "
+					read input
+					[ "$input" = 0 ] && continue
+					[ "$input" -gt "$count" ] && continue
+					filesystem_var=$(echo $fs | tr ' ' '\n' | head -n$input | tail -n1)
+				done
+			else
+				filesystem_var=skip
+			fi
+			;;
 		esac
 	done
 	if [ "$part" ]; then
 		case $1 in
-			1) efi_var=$part;;
-			2) biosboot_var=$part;;
-			3) swap_var=$part:$createpart;;
-			4) root_var=$part:$filesystem_var;;
-			5) home_var=$part:$filesystem_var;;
+		1) efi_var=$part ;;
+		2) biosboot_var=$part ;;
+		3) swap_var=$part:$createpart ;;
+		4) root_var=$part:$filesystem_var ;;
+		5) home_var=$part:$filesystem_var ;;
 		esac
 	fi
 }
@@ -159,7 +161,7 @@ modify_disk() {
 		cclear
 		count=0
 		for i in $(showdisk); do
-			count=$((count+1))
+			count=$((count + 1))
 			ii=$(get_partition_info $i)
 			cprint "$count. $ii"
 		done
@@ -176,8 +178,8 @@ modify_disk() {
 		prompt_user "Select tool for partitioning disk $disk: "
 		read input
 		case $input in
-			1) disktool=cfdisk;;
-			2) disktool=fdisk;;
+		1) disktool=cfdisk ;;
+		2) disktool=fdisk ;;
 		esac
 	done
 	$disktool $disk
@@ -203,9 +205,9 @@ config_rootpart() {
 		prompt_user "Choose above to configure: "
 		read input
 		case $input in
-			1|2|3|4|5) choose_part $input;;
-			0) partstatus=done;;
-			00) modify_disk;;
+		1 | 2 | 3 | 4 | 5) choose_part $input ;;
+		0) partstatus=done ;;
+		00) modify_disk ;;
 		esac
 	done
 	if [ "$root_var" ]; then
@@ -248,7 +250,7 @@ config_keymap() {
 		cclear
 		count=0
 		for i in $keymappart; do
-			count=$((count+1))
+			count=$((count + 1))
 			cprint "$count. $i"
 		done
 		prompt_user "Enter keymap [1-$count]: "
@@ -271,7 +273,7 @@ config_locale() {
 		cclear
 		count=0
 		for i in $localepart; do
-			count=$((count+1))
+			count=$((count + 1))
 			cprint "$count. $i"
 		done
 		prompt_user "Enter locale [1-$count]: "
@@ -358,7 +360,7 @@ config_bootloader() {
 		cclear
 		count=0
 		for i in $(showdisk); do
-			count=$((count+1))
+			count=$((count + 1))
 			ii=$(get_partition_info $i)
 			cprint "$count. $ii"
 		done
@@ -381,15 +383,15 @@ config_timezone() {
 		[ -d $l ] || continue
 		l=${l##*/}
 		case $l in
-			Etc|posix|right) continue;;
+		Etc | posix | right) continue ;;
 		esac
 		listloc="$listloc $l"
 	done
-	while [ ! "$location" ]; do		
+	while [ ! "$location" ]; do
 		cclear
 		count=0
 		for l in $listloc; do
-			count=$((count+1))
+			count=$((count + 1))
 			cprint "$count. $l"
 		done
 		prompt_user "Enter location [1-$count]: "
@@ -409,11 +411,11 @@ config_timezone() {
 		read input
 		countrypart=$(echo $listc | tr ' ' '\n' | grep -i $input)
 	done
-	while [ ! "$country" ]; do		
+	while [ ! "$country" ]; do
 		cclear
 		count=0
 		for c in $countrypart; do
-			count=$((count+1))
+			count=$((count + 1))
 			cprint "$count. $c"
 		done
 		prompt_user "Enter country [1-$count]: "
@@ -428,14 +430,38 @@ config_timezone() {
 check_var() {
 	cclear
 	unset error
-	[ "$root_part" ]   || { error=1; cprint "partition for / is not set up"; }
-	[ "$KEYMAP" ]     || { error=1; cprint "keymap is not set up"; }
-	[ "$TIMEZONE" ]   || { error=1; cprint "timezone is not set up"; }
-	[ "$LOCALE" ]     || { error=1; cprint "locale is not set up"; }
-	[ "$HOSTNAME" ]   || { error=1; cprint "hostname is not set up"; }
-	[ "$USERNAME" ]   || { error=1; cprint "user is not set up"; }
-	[ "$ROOT_PSWD" ]  || { error=1; cprint "root password is not set up"; }
-	[ "$BOOTLOADER" ] || { error=1; cprint "bootloader is not set up"; }
+	[ "$root_part" ] || {
+		error=1
+		cprint "partition for / is not set up"
+	}
+	[ "$KEYMAP" ] || {
+		error=1
+		cprint "keymap is not set up"
+	}
+	[ "$TIMEZONE" ] || {
+		error=1
+		cprint "timezone is not set up"
+	}
+	[ "$LOCALE" ] || {
+		error=1
+		cprint "locale is not set up"
+	}
+	[ "$HOSTNAME" ] || {
+		error=1
+		cprint "hostname is not set up"
+	}
+	[ "$USERNAME" ] || {
+		error=1
+		cprint "user is not set up"
+	}
+	[ "$ROOT_PSWD" ] || {
+		error=1
+		cprint "root password is not set up"
+	}
+	[ "$BOOTLOADER" ] || {
+		error=1
+		cprint "bootloader is not set up"
+	}
 	if [ "$error" = 1 ]; then
 		prompt_user "Press ENTER to back to main menu..."
 		read input
@@ -445,16 +471,16 @@ check_var() {
 
 start_install() {
 	cclear
-	
+
 	swap_part=${swap_var%:*}
 	swap_part_create=${swap_var#*:}
 	root_part=${root_var%:*}
 	root_part_fs=${root_var#*:}
 	home_part=${home_var%:*}
 	home_part_fs=${home_var#*:}
-	
+
 	check_var || return 0
-	
+
 	# overview
 	cprint "*** Partition Overview ***"
 	echo
@@ -463,49 +489,48 @@ start_install() {
 	if [ "$home_part_fs" ] || [ "$home_part_fs" != skip ]; then
 		cprint "$home_part will be format into $home_part_fs"
 	fi
-	
+
 	prompt_user "Press ENTER to continue installation..."
 	read input
-	
+
 	mountpoint -q $ROOT && umount -Rf $ROOT
-	
+
 	rm -fr $ROOT
 	mkdir -p $ROOT
-	
+
 	if [ "$root_part_fs" != skip ]; then
 		echo "Create filesystem $root_part_fs on $root_part"
 		case $root_part_fs in
-			ext4|ext3|ext2) mkfs.$root_part_fs -F $root_part;;
-			xfs) mkfs.xfs -f -m crc=0 $root_part;;
-			reiserfs) mkreiserfs -q $root_part;;
-			btrfs) mkfs.btrfs -f $root_part;;
+		ext4 | ext3 | ext2) mkfs.$root_part_fs -F $root_part ;;
+		xfs) mkfs.xfs -f -m crc=0 $root_part ;;
+		reiserfs) mkreiserfs -q $root_part ;;
+		btrfs) mkfs.btrfs -f $root_part ;;
 		esac
 	fi
-	
+
 	echo "Mounting $root_part on $ROOT"
 	mount $root_part $ROOT
-	
+
 	if [ "$home_part" ]; then
 		if [ "$home_part_fs" != skip ]; then
 			echo "Create filesystem $home_part_fs on $home_part"
 			case $home_part_fs in
-				ext4|ext3|ext2) mkfs.$home_part_fs -F -L Home $home_part;;
-				xfs) mkfs.xfs -f -m crc=0 -L Home $home_part;;
-				reiserfs) mkreiserfs -q -l Home $home_part;;
-				btrfs) mkfs.btrfs -f -L Home $home_part;;
+			ext4 | ext3 | ext2) mkfs.$home_part_fs -F -L Home $home_part ;;
+			xfs) mkfs.xfs -f -m crc=0 -L Home $home_part ;;
+			reiserfs) mkreiserfs -q -l Home $home_part ;;
+			btrfs) mkfs.btrfs -f -L Home $home_part ;;
 			esac
 		fi
 		echo "Mount $home_part to $ROOT/home"
 		mkdir -p $ROOT/home
 		mount $home_part $ROOT/home
 	fi
-		
-	
+
 	if [ "$swap_part_create" != skip ]; then
 		echo "Making swap partition on $swap_part"
 		mkswap $swap_part
 	fi
-	
+
 	if [ "$EFI_SYSTEM" = 1 ]; then
 		echo "Formatting partition $efi_var to fat32"
 		mkfs.vfat -F32 $efi_var
@@ -513,10 +538,10 @@ start_install() {
 		mkdir -p $ROOT/boot/efi
 		mount $efi_var $ROOT/boot/efi
 	fi
-	
+
 	echo "Installing system to $root_partition_var"
-	unsquashfs -f -i -d $ROOT $ROOTSFS
-	
+	/usr/local/bin/unsquashfs -f -i -d $ROOT $ROOTSFS
+
 	if [ -f /root/post-extract.sh ]; then
 		echo "running post-extract.sh script"
 		chmod +x /root/post-extract.sh
@@ -525,47 +550,47 @@ start_install() {
 
 	# fstab
 	echo "Setup fstab"
-	echo "# <device> <dir> <type> <options> <dump> <fsck>" > $ROOT/etc/fstab
-	
+	echo "# <device> <dir> <type> <options> <dump> <fsck>" >$ROOT/etc/fstab
+
 	# EFI partition
 	if [ "$EFI_SYSTEM" = 1 ]; then
-		echo "UUID=$(blkid -o value -s UUID "$efi_var") /boot/efi vfat defaults 0 2" >> $ROOT/etc/fstab
+		echo "UUID=$(blkid -o value -s UUID "$efi_var") /boot/efi vfat defaults 0 2" >>$ROOT/etc/fstab
 	fi
-	
+
 	# swap
 	if [ "$swap_part" ]; then
-		echo "UUID=$(blkid -o value -s UUID "$swap_part") swap swap pri=1 0 0" >> $ROOT/etc/fstab
+		echo "UUID=$(blkid -o value -s UUID "$swap_part") swap swap pri=1 0 0" >>$ROOT/etc/fstab
 	fi
-	
+
 	# root
-	echo "UUID=$(blkid -o value -s UUID "$root_part") / $(lsblk -nrp -o FSTYPE $root_part) defaults 1 1" >> $ROOT/etc/fstab
-	
+	echo "UUID=$(blkid -o value -s UUID "$root_part") / $(lsblk -nrp -o FSTYPE $root_part) defaults 1 1" >>$ROOT/etc/fstab
+
 	# /home
 	if [ "$home_part" ]; then
-		echo "UUID=$(blkid -o value -s UUID "$home_part") /home $(lsblk -nrp -o FSTYPE $home_part) defaults 0 0" >> $ROOT/etc/fstab
+		echo "UUID=$(blkid -o value -s UUID "$home_part") /home $(lsblk -nrp -o FSTYPE $home_part) defaults 0 0" >>$ROOT/etc/fstab
 	fi
-	
+
 	if [ -f /root/post-install.sh ]; then
 		echo "running post-install.sh script"
 		chmod +x /root/post-install.sh
 		ROOT=$ROOT \
-		HOSTNAME=$HOSTNAME \
-		TIMEZONE=$TIMEZONE \
-		KEYMAP=$KEYMAP \
-		USERNAME=$USERNAME \
-		USER_PSWD=$USER_PSWD \
-		ROOT_PSWD=$ROOT_PSWD \
-		LOCALE=$LOCALE \
-		BOOTLOADER=$BOOTLOADER \
-		EFI_SYSTEM=$EFI_SYSTEM \
-		/root/post-install.sh
+			HOSTNAME=$HOSTNAME \
+			TIMEZONE=$TIMEZONE \
+			KEYMAP=$KEYMAP \
+			USERNAME=$USERNAME \
+			USER_PSWD=$USER_PSWD \
+			ROOT_PSWD=$ROOT_PSWD \
+			LOCALE=$LOCALE \
+			BOOTLOADER=$BOOTLOADER \
+			EFI_SYSTEM=$EFI_SYSTEM \
+			/root/post-install.sh
 	fi
-	
+
 	prompt_user "Installation completed, press ENTER to continue..."
 	read input
-	
+
 	while [ ! "$done" ]; do
-		cclear	
+		cclear
 		cprint "Installation complete!"
 		echo
 		cprint "1. exit installer"
@@ -575,10 +600,19 @@ start_install() {
 		prompt_user "choose option: "
 		read input
 		case $input in
-			1) umount -R $ROOT;;
-			2) umount -R $ROOT; reboot;;
-			3) umount -R $ROOT; poweroff;;
-			4) live-chroot $ROOT /bin/bash; umount -R $ROOT;;
+		1) umount -R $ROOT ;;
+		2)
+			umount -R $ROOT
+			reboot
+			;;
+		3)
+			umount -R $ROOT
+			poweroff
+			;;
+		4)
+			live-chroot $ROOT /bin/bash
+			umount -R $ROOT
+			;;
 		esac
 		[ "$input" = 0 ] && continue
 		[ "$input" -gt "3" ] && continue
@@ -620,16 +654,19 @@ main() {
 		prompt_user "Enter choice [1-9]: "
 		read input
 		case $input in
-			1) config_rootpart;;
-			2) config_keymap;;
-			3) config_timezone;;
-			4) config_locale;;
-			5) config_hostname;;
-			6) config_useraccount;;
-			7) config_rootpswd;;
-			8) config_bootloader;;
-			9) start_install; exit 0;;
-			0) exit;;
+		1) config_rootpart ;;
+		2) config_keymap ;;
+		3) config_timezone ;;
+		4) config_locale ;;
+		5) config_hostname ;;
+		6) config_useraccount ;;
+		7) config_rootpswd ;;
+		8) config_bootloader ;;
+		9)
+			start_install
+			exit 0
+			;;
+		0) exit ;;
 		esac
 	done
 }

@@ -1,1 +1,11 @@
-qemu-img convert -O vdi fennecos-x86_64.img fennecos-x86_64.vdi
+!/bin/bash
+
+if [ $# -ne 1 ]; then
+	echo "Usage: $0 input_image.img"
+	exit 1
+fi
+
+input_img=$1
+output_vdi="${input_img%.*}.vdi"
+
+qemu-img convert -O vdi "$input_img" "$output_vdi"

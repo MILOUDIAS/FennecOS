@@ -54,7 +54,7 @@ ROOTFS=$(realpath $1)
 ISONAME=FennecOS-$(date +"%Y%m%d")
 
 # your exclude dirs here eg: var/cache/somedir/*
-YOUR_EXCLUDE_DIRS="var/cache/sources/* /sources"
+YOUR_EXCLUDE_DIRS="var/cache/sources/* /sources /root/.cache /home/tester/.cache"
 
 # slackware
 EXCLUDE_DIRS="$EXCLUDE_DIRS var/lib/sbopkg/* var/cache/sbopkg/* var/lib/slackpkg/*"
@@ -171,7 +171,7 @@ else
 	mksquashfs $ROOTFS work/_live/boot/rootfs.sfs \
 		-b 1048576 \
 		\
-		-comp xz \
+		-comp gzip \
 		-e $ROOTFS/root/* \
 		-e $ROOTFS/home/* \
 		-e $ROOTFS/tools* \
@@ -184,7 +184,7 @@ else
 		-e $ROOTFS/run/* \
 		$squashfsexclude 2>/dev/null
 fi
-
+mkdir -p $ROOTFS/iso
 install -m755 work/mkinitramfs $ROOTFS/iso/mkinitramfs
 install -m755 work/init.in $ROOTFS/iso/init
 install -m644 files/liveiso.hook $ROOTFS/iso/liveiso.hook
