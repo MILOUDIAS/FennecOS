@@ -16,5 +16,7 @@ else
     fi
   done
 fi
-
+export LD_LIBRARY_PATH=/usr/lib:$LD_LIBRARY_PATH
+export PKG_CONFIG_PATH=/usr/lib/pkgconfig:$PKG_CONFIG_PATH
+export PATH=$PATH:/usr/local/go/bin
 # End /etc/profile

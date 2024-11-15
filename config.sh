@@ -4,18 +4,22 @@
 
 FULLPATH=$(cd $(dirname $0) && pwd)
 
-export LFS_VERSION=0.1
+# set default arch to build
+# ARCH=$(uname -m)
+export ARCH=x86_64
+
+export LFS_VERSION=0.9
 export KERNELVERS=6.10.5
-export PACKAGE_LIST=$FULLPATH/x86_64/packages.sh
-export PACKAGE_DIR=$FULLPATH/x86_64/packages
+export PACKAGE_LIST=$FULLPATH/$ARCH/packages.sh
+export PACKAGE_DIR=$FULLPATH/$ARCH/packages
 export LOG_DIR=$FULLPATH/logs
 export KEEP_LOGS=true
 export LFS=$FULLPATH/mnt/lfs
 export INSTALL_MOUNT=$FULLPATH/mnt/install
 export LFS_TGT=$(uname -m)-fennecos-linux-gnu
 export LFS_FS=ext4
-export LFS_IMG=$FULLPATH/fennecos.img
-export LFS_IMG_SIZE=$((15 * 1024 * 1024 * 1024)) # 25 GiB
+export LFS_IMG=$FULLPATH/fennecos-$ARCH.img
+export LFS_IMG_SIZE=$((40 * 1024 * 1024 * 1024)) # 30 GiB
 export TESTLOG_DIR=$FULLPATH/testlogs
 export LFSROOTLABEL=LFSROOT
 export LFSEFILABEL=LFSEFI
@@ -24,8 +28,20 @@ export LFSFSTYPE=ext4
 # configure these like `MAKEFLAGS=-j1 RUN_TESTS=true ./mylfs.sh --build-all`
 export MAKEFLAGS=${MAKEFLAGS:--j2}
 export RUN_TESTS=${RUN_TESTS:-false}
-export ROOT_PASSWD=${ROOT_PASSWD:-lfs299}
+export ROOT_PASSWD=${ROOT_PASSWD:-root}
 export LFSHOSTNAME=${LFSHOSTNAME:-fennecos}
+
+# Set compiler variables based on architecture
+if [ "$ARCH" = "aarch64" ]; then
+	export CC=aarch64-linux-gnu-gcc
+	export CXX=aarch64-linux-gnu-g++
+	export AR=aarch64-linux-gnu-ar
+	export AS=aarch64-linux-gnu-as
+	export RANLIB=aarch64-linux-gnu-ranlib
+	export LD=aarch64-linux-gnu-ld
+else
+	unset CC CXX AR AS RANLIB LD # Use defaults for x86_64
+fi
 
 export FDISK_INSTR="
 o       # create DOS partition table

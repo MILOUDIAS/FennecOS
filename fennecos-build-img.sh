@@ -454,6 +454,9 @@ function build_package {
 			*.tar)
 				local EXTRACTCMD="tar -xf ${FILE} -C $NAME --strip-components=1"
 				;;
+			*.git)
+				local EXTRACTCMD="git clone ${FILE} -C $NAME --strip-components=1"
+				;;
 			*)
 				echo "ERROR: $FILE has an unsupported file extension"
 				return 1
